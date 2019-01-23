@@ -7,13 +7,13 @@ import frc.robot.joysticks.XBoxJoystick;
 public class OI {
 
     public OI() {
-        initControllerOfHelper();
+        initJoystickOfHelper();
     }
 
-    private void initControllerOfHelper() {
+    private void initJoystickOfHelper() {
         XBoxJoystick joystick = XBoxJoystick.HELPER;
 
-        joystick.getButtonA().whenPressed(new MoveElevatorToLowPosition());
-        joystick.getButtonX().whenPressed(new MoveElevatorToHighPosition());
+        joystick.A.whenPressed(new MoveElevatorToLowPosition());
+        joystick.X.whenPressed(new MoveElevatorToHighPosition());
     }
 }

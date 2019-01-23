@@ -5,14 +5,14 @@ public enum XBoxButton {
     B(2), 
     X(3), 
     Y(4), 
-    LB(5), 
-    RB(6), 
+    BUMPER_LEFT(5), 
+    BUMPER_RIGHT(6), 
     BACK(7), 
     START(8),
-    LEFT_STICK(9), 
-    RIGHT_STICK(10);
+    STICK_LEFT(9), 
+    STICK_RIGHT(10);
 
-    private int value;
+    private final int value;
 
     private XBoxButton(int value) {
         this.value = value;
