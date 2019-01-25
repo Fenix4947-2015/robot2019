@@ -2,6 +2,7 @@ package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.Elevator;
 
 public class MoveElevatorToHighPosition extends Command {
     
@@ -13,7 +14,9 @@ public class MoveElevatorToHighPosition extends Command {
 
     @Override
     protected void initialize() {
-        Robot.elevator.moveHigh();
+        setTimeout(Elevator.COMMAND_TIMEOUT_IN_SECONDS);
+
+        Robot.elevator.moveToHigh();
     }
 
     @Override
@@ -22,7 +25,7 @@ public class MoveElevatorToHighPosition extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.elevator.isHigh();
+        return Robot.elevator.isHigh() || isTimedOut();
     }
 
     @Override

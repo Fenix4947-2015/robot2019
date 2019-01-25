@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Elevator;
 
-public class MoveElevatorToLowPosition extends Command {
+public class MoveElevatorToMiddlePosition extends Command {
     
-    public MoveElevatorToLowPosition() {
+    public MoveElevatorToMiddlePosition() {
         requires(Robot.elevator);
 
         setInterruptible(true);
@@ -16,7 +16,7 @@ public class MoveElevatorToLowPosition extends Command {
     protected void initialize() {
         setTimeout(Elevator.COMMAND_TIMEOUT_IN_SECONDS);
 
-        Robot.elevator.moveToLow();
+        Robot.elevator.moveToMiddle();
     }
 
     @Override
@@ -25,7 +25,7 @@ public class MoveElevatorToLowPosition extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.elevator.isLow() || isTimedOut();
+        return Robot.elevator.isMiddle() || isTimedOut();
     }
 
     @Override
