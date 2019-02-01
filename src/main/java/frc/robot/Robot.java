@@ -1,6 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.DriveTrain;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -10,12 +13,21 @@ import edu.wpi.first.wpilibj.TimedRobot;
  */
 public class Robot extends TimedRobot {
 
+    public static DriveTrain driveTrain;
+
+    public static OI oi;
+
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
      */
     @Override
     public void robotInit() {
+        driveTrain = new DriveTrain();
+
+        RobotMap.init();
+
+        oi = new OI();
     }
 
     /**
@@ -35,6 +47,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
     }
 
     @Override
@@ -43,6 +56,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
+        Scheduler.getInstance().run();
     }
 
     @Override
@@ -51,5 +65,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {
+        Scheduler.getInstance().run();
     }
 }
