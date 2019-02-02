@@ -1,7 +1,10 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.Elevator;
 
 /**
@@ -38,6 +41,16 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+        SmartDashboard.putBoolean("Elevator low switch", Robot.elevator.isLow());
+        SmartDashboard.putBoolean("Elevator high switch", Robot.elevator.isHigh());
+        SmartDashboard.putNumber("Elevator encoder position (count)", Robot.elevator.getEncoderPosition());
+        SmartDashboard.putNumber("Elevator closed-loop error (count)", Robot.elevator.getClosedLoopError());
+        SmartDashboard.putNumber("Elevator motor output %", Robot.elevator.getMotorOutputPercent());
+
+        SmartDashboard.putNumber("Joystick helper left stick X", XBoxJoystick.HELPER.getXRaw(Hand.kLeft));
+        SmartDashboard.putNumber("Joystick helper left stick Y", XBoxJoystick.HELPER.getYRaw(Hand.kLeft));
+        SmartDashboard.putNumber("Joystick helper right stick X", XBoxJoystick.HELPER.getXRaw(Hand.kRight));
+        SmartDashboard.putNumber("Joystick helper right stick Y", XBoxJoystick.HELPER.getYRaw(Hand.kRight));        
     }
 
     @Override
