@@ -9,7 +9,7 @@ public enum XBoxJoystick {
     DRIVER(RobotMap.JOYSTICK_DRIVER_PORT),
     HELPER(RobotMap.JOYSTICK_HELPER_PORT);
 
-    private static final double DEADBAND = 0.1;
+    private static final double DEFAULT_DEADBAND = 0.1;
 
     public JoystickButton A;
     public JoystickButton B;
@@ -40,27 +40,52 @@ public enum XBoxJoystick {
     }
 
     public double getX(Hand hand) {
+        return getX(hand, DEFAULT_DEADBAND);
+    }
+
+    public double getX(Hand hand, double deadband) {
         double x = joystick.getX(hand);
-        return applyDeadband(x);
+        return applyDeadband(x, deadband);
     }
 
     public double getY(Hand hand) {
         double y = joystick.getY(hand);
-        return applyDeadband(y);
+        return applyDeadband(y, DEFAULT_DEADBAND);
+    }
+
+    public double getY(Hand hand, double deadband) {
+        double y = joystick.getY(hand);
+        return applyDeadband(y, deadband);
     }
 
     public double getTriggerAxis(Hand hand) {
-        double triggerAxis = joystick.getTriggerAxis(hand);
-        return applyDeadband(triggerAxis);
+        return getTriggerAxis(hand, DEFAULT_DEADBAND);
     }
 
-    private double applyDeadband(double axisValue) {
+    public double getTriggerAxis(Hand hand, double deadband) {
+        double triggerAxis = joystick.getTriggerAxis(hand);
+        return applyDeadband(triggerAxis, deadband);
+    }
+
+    private double applyDeadband(double axisValue, double deadband) {
         double absAxisValue = Math.abs(axisValue);
-        if (absAxisValue < DEADBAND) {
+        if (absAxisValue < deadband) {
             return 0.0;
         }
 
         return axisValue;
+    }
+
+    public double getRawX(Hand hand) {
+        return joystick.getX(hand);
+    }
+
+    public double getRawY(Hand hand) {
+        return joystick.getY(hand);
+    }
+
+    public double getRawTriggerAxis(Hand hand) {
+        return joystick.getTriggerAxis(hand);
     }
 
     public boolean getButton(XBoxButton button) {
