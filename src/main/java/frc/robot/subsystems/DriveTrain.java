@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
-import frc.robot.commands.DriveArcade;
+import frc.robot.commands.drivetrain.DriveArcade;
 
 public class DriveTrain extends Subsystem {
 
@@ -23,9 +23,11 @@ public class DriveTrain extends Subsystem {
 
   public ColorSensor sensor;
 
+
   public DriveTrain() {
     sensor = new ColorSensor(Port.kOnboard);
 
+    // Initialize drivetrain motors
     setMotorsAllowablePower(leftMotor1);
     setMotorsAllowablePower(leftMotor2);
 
@@ -42,10 +44,10 @@ public class DriveTrain extends Subsystem {
   }
 
   private void setMotorsAllowablePower(WPI_TalonSRX motor) {
-    motor.configNominalOutputForward(0.0, DriveTrainConstants.kTimeoutMs);
-    motor.configNominalOutputReverse(0.0, DriveTrainConstants.kTimeoutMs);
-    motor.configPeakOutputForward(PEAK_OUTPUT, DriveTrainConstants.kTimeoutMs);
-    motor.configPeakOutputReverse(-PEAK_OUTPUT, DriveTrainConstants.kTimeoutMs);
+    motor.configNominalOutputForward(0.0, DriveTrainConstants.TIMEOUT_MS);
+    motor.configNominalOutputReverse(0.0, DriveTrainConstants.TIMEOUT_MS);
+    motor.configPeakOutputForward(PEAK_OUTPUT, DriveTrainConstants.TIMEOUT_MS);
+    motor.configPeakOutputReverse(-PEAK_OUTPUT, DriveTrainConstants.TIMEOUT_MS);
   }
 
   @Override
@@ -61,8 +63,8 @@ public class DriveTrain extends Subsystem {
     double GoStraightCompensation = 0;
     if(Math.abs(Speed) > 0.1)
     {
-      GoStraightCompensation = Speed * DriveTrainConstants.GO_STRAIGHT_COMPENSATION_DYNAMIC + DriveTrainConstants.GO_STRAIGHT_COMPENSATION_STATIC * Math.signum(Speed)  ; 
-      // TODO Tune this value. Has a speed proportional component (friction in mechanism()  and a fixed component
+      // TODO Tune the constant values. Has a speed proportional component (friction in mechanism()  and a fixed component
+      GoStraightCompensation = Speed * DriveTrainConstants.GO_STRAIGHT_COMPENSATION_DYNAMIC + DriveTrainConstants.GO_STRAIGHT_COMPENSATION_STATIC * Math.signum(Speed)  ;             
     }
     
     robotDrive.arcadeDrive(Speed, Rotation + GoStraightCompensation);       	

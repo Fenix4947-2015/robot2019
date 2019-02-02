@@ -7,15 +7,15 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.joysticks.XBoxJoystick;
 
-public class DriveArcade extends Command {
-  public DriveArcade() {
+public class StopAll extends Command {
+  public StopAll() {
+    // Use requires() here to declare subsystem dependencies
     requires(Robot.driveTrain);
-	}
+    requires(Robot.ballonBox);
+  }
 
   // Called just before this Command runs the first time
   @Override
@@ -25,14 +25,9 @@ public class DriveArcade extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-   // double moveValue = Robot.oi.getJoystickDriverAxis(XBoxAxis.LEFT_STICK_Y, 0.1);
-    double moveValue = XBoxJoystick.DRIVER.getY(Hand.kLeft);
-
-
-		
-    double rotateValue = XBoxJoystick.DRIVER.getX(Hand.kLeft);
-		Robot.driveTrain.driveArcadeMethod(-moveValue, rotateValue);
-	
+    Robot.ballonBox.IntakeStop();
+    Robot.ballonBox.PivotStop();
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()
