@@ -24,9 +24,18 @@ public class Elevator extends Subsystem {
 
     public static final double COMMAND_TIMEOUT_IN_SECONDS = 2.0;
 
-    private static final int    POSITION_MIDDLE_IN_COUNTS = 1000;
-    private static final int    MOTOR_CONFIG_TIMEOUT_IN_MS = 30;
-    private static final double MOVE_OUTPUT = 0.25;
+    private static final int POSITION_MIDDLE_IN_COUNTS = 1000;  // TODO: Must be determined.
+    private static final int POSITION_HIGH_IN_COUNTS = 3000;    // TODO: Must be determined.
+
+    private static final int    POSITION_SPEED_LIMIT_START_IN_COUNTS = (int) (POSITION_MIDDLE_IN_COUNTS * 0.5);                                                          // TODO: Must be determined.
+    private static final int    POSITION_SPEED_LIMIT_END_IN_COUNTS = (int) (POSITION_MIDDLE_IN_COUNTS + ((POSITION_HIGH_IN_COUNTS - POSITION_MIDDLE_IN_COUNTS) * 0.5));  // TODO: Must be determined.
+    private static final int    SPEED_LIMIT_RANGE_IN_COUNTS = (POSITION_SPEED_LIMIT_END_IN_COUNTS - POSITION_SPEED_LIMIT_START_IN_COUNTS);
+    private static final double SPEED_LIMIT_FACTOR_WHEN_HIGH = 0.1;
+    private static final double SPEED_LIMIT_FACTOR_RANGE = (1.0 - SPEED_LIMIT_FACTOR_WHEN_HIGH);
+
+    private static final int MOTOR_CONFIG_TIMEOUT_IN_MS = 30;
+
+    private static final double MOVE_OUTPUT = 0.25; // TODO: Must be increased.
 
     private static final int    PID_LOOP_ID = 0;
     private static final int    PID_SLOT_ID = 0;
@@ -113,6 +122,21 @@ public class Elevator extends Subsystem {
 
     public double getMotorOutputPercent() {
         return motor.getMotorOutputPercent();
+    }
+
+    public double getSpeedFactor() {
+        int encoderPosition = motor.getSelectedSensorPosition();
+        if (encoderPosition <= POSITION_SPEED_LIMIT_START_IN_COUNTS) {
+            return 1.0;
+        } else if (encoderPosition >= POSITION_SPEED_LIMIT_END_IN_COUNTS) {
+            return SPEED_LIMIT_FACTOR_WHEN_HIGH;
+        }
+
+        double delta = (encoderPosition - POSITION_SPEED_LIMIT_START_IN_COUNTS);
+        double percent = (delta / SPEED_LIMIT_RANGE_IN_COUNTS);
+        double correctionFactor = (percent * SPEED_LIMIT_FACTOR_RANGE);
+
+        return (1.0 - correctionFactor);
     }
 
     public boolean isLow() {

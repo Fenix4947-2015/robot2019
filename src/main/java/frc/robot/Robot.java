@@ -46,11 +46,14 @@ public class Robot extends TimedRobot {
         SmartDashboard.putNumber("Elevator encoder position (count)", Robot.elevator.getEncoderPosition());
         SmartDashboard.putNumber("Elevator closed-loop error (count)", Robot.elevator.getClosedLoopError());
         SmartDashboard.putNumber("Elevator motor output %", Robot.elevator.getMotorOutputPercent());
+        SmartDashboard.putNumber("Elevator speed factor", Robot.elevator.getSpeedFactor());
 
         SmartDashboard.putNumber("Joystick helper left stick X", XBoxJoystick.HELPER.getXRaw(Hand.kLeft));
         SmartDashboard.putNumber("Joystick helper left stick Y", XBoxJoystick.HELPER.getYRaw(Hand.kLeft));
+        SmartDashboard.putNumber("Joystick helper left trigger", XBoxJoystick.HELPER.getTriggerAxisRaw(Hand.kLeft));
         SmartDashboard.putNumber("Joystick helper right stick X", XBoxJoystick.HELPER.getXRaw(Hand.kRight));
-        SmartDashboard.putNumber("Joystick helper right stick Y", XBoxJoystick.HELPER.getYRaw(Hand.kRight));        
+        SmartDashboard.putNumber("Joystick helper right stick Y", XBoxJoystick.HELPER.getYRaw(Hand.kRight));    
+        SmartDashboard.putNumber("Joystick helper right trigger", XBoxJoystick.HELPER.getTriggerAxisRaw(Hand.kRight));    
     }
 
     @Override
