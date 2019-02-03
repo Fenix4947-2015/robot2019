@@ -1,16 +1,21 @@
 package frc.robot;
 
+import frc.robot.commands.drivetrain.SetFrontToIntake;
+import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
 import frc.robot.joysticks.XBoxJoystick;
 
 public class OI {
 
     public OI() {
-        initJoystickOfHelper();
+        initJoystickOfDriver(XBoxJoystick.DRIVER);
+        initJoystickOfHelper(XBoxJoystick.HELPER);
     }
 
-    private void initJoystickOfHelper() {
-        XBoxJoystick joystick = XBoxJoystick.HELPER;
+    private void initJoystickOfDriver(XBoxJoystick joystick) {
+        joystick.bumperLeft.whenPressed(new SetFrontToIntake());
+        joystick.bumperRight.whenPressed(new SetFrontToPanelGripper());
+    }
 
-        //joystick.A.whenPressed(new MoveElevatorToLowPosition());
+    private void initJoystickOfHelper(XBoxJoystick joystick) {
     }
 }

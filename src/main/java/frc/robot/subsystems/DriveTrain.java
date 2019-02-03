@@ -13,6 +13,9 @@ public class DriveTrain extends Subsystem {
 
   private static final double PEAK_OUTPUT = 0.5;
 
+  private static final double FRONT_DIRECTION_INTAKE = 1.0;
+  private static final double FRONT_DIRECTION_PANEL_GRIPPER = -1.0;
+
   private WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR1_ADDRESS); // encoder
   private WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR2_ADDRESS);
 
@@ -22,10 +25,11 @@ public class DriveTrain extends Subsystem {
   private DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
 
   public ColorSensor sensor;
-
+  private double direction;
 
   public DriveTrain() {
     sensor = new ColorSensor(Port.kOnboard);
+    direction = FRONT_DIRECTION_INTAKE;
 
     // Initialize drivetrain motors
     setMotorsAllowablePower(leftMotor1);
@@ -66,8 +70,18 @@ public class DriveTrain extends Subsystem {
       // TODO Tune the constant values. Has a speed proportional component (friction in mechanism()  and a fixed component
       GoStraightCompensation = Speed * DriveTrainConstants.GO_STRAIGHT_COMPENSATION_DYNAMIC + DriveTrainConstants.GO_STRAIGHT_COMPENSATION_STATIC * Math.signum(Speed)  ;             
     }
-    
-    robotDrive.arcadeDrive(Speed, Rotation + GoStraightCompensation);       	
+
+    Speed *= direction;
+    Rotation = direction * (Rotation + GoStraightCompensation);
+
+    robotDrive.arcadeDrive(Speed, Rotation);
 }
 
+    public void setFrontToIntake() {
+        direction = FRONT_DIRECTION_INTAKE;
+    }
+
+    public void setFrontToPanelGripper() {
+        direction = FRONT_DIRECTION_PANEL_GRIPPER;
+    }
 }
