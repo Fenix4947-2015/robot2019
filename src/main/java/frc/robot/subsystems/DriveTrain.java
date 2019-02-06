@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,6 +24,7 @@ public class DriveTrain extends Subsystem {
 
   public ColorSensor sensor;
 
+  public Pigeon pigeon = new Pigeon();
 
   public DriveTrain() {
     sensor = new ColorSensor(Port.kOnboard);
@@ -68,6 +70,33 @@ public class DriveTrain extends Subsystem {
     }
     
     robotDrive.arcadeDrive(Speed, Rotation + GoStraightCompensation);       	
-}
+  }
+
+  public class Pigeon {
+
+    private PigeonIMU pigeon = new PigeonIMU(leftMotor2);
+
+    public double yaw;
+    public double pitch;
+    public double roll;
+    public short accelX;
+    public short accelY;
+    public short accelZ;
+
+    public void refresh() {
+      double[] ypr = new double[3];
+      pigeon.getYawPitchRoll(ypr);
+      yaw = ypr[0];
+      pitch = ypr[1];
+      roll = ypr[2];
+
+      short[] xyz = new short[3];
+      pigeon.getBiasedAccelerometer(xyz);
+      accelX = xyz[0];
+      accelY = xyz[1];
+      accelZ = xyz[2];
+    }
+
+  }
 
 }

@@ -30,7 +30,13 @@ public class DriveArcade extends Command {
 		
     double rotateValue = XBoxJoystick.DRIVER.getX(Hand.kLeft);
 		Robot.driveTrain.driveArcadeMethod(-moveValue, rotateValue);
-	
+  
+    // Example of how to use the Pigeon IMU
+    
+    // 1. read the values from the sensor
+    //Robot.driveTrain.pigeon.refresh();
+    // 2. use the retrieved values
+    //System.out.println("Yaw: " + Robot.driveTrain.pigeon.yaw);
   }
 
   // Make this return true when this Command no longer needs to run execute()
