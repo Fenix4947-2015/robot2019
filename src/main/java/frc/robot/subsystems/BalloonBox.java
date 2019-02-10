@@ -25,6 +25,15 @@ public class BalloonBox extends Subsystem {
   private WPI_TalonSRX pivotMotor;
 
 
+  
+  // Position PID
+  private static final double PULSES_PER_FOOT = 292;
+	private static final double MAX_CLOSED_LOOP_MODE_PERCENT_OUTPUT = 0.7;
+	private static final double POSITION_PID_P = 0.75;
+	private static final double POSITION_PID_I = 0.0;
+	private static final double POSITION_PID_D = 0.0;
+	private static final double POSITION_PID_F = 0.0;
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -40,27 +49,27 @@ public class BalloonBox extends Subsystem {
 
   public void IntakeRollInside()
   {
-      pivotMotor.set(ControlMode.PercentOutput,0.5);
+    intakeRollerMotor.set(ControlMode.PercentOutput,0.4);
   }
 
   public void IntakeStop()
   {
-    pivotMotor.set(ControlMode.PercentOutput,0.0);
+    intakeRollerMotor.set(ControlMode.PercentOutput,0.0);
   }
 
   public void PivotLiftUp()
   {
-    intakeRollerMotor.set(ControlMode.PercentOutput,0.7);
+    pivotMotor.set(ControlMode.PercentOutput,0.7);
   }
 
   public void PivotGoDown()
   {
-    intakeRollerMotor.set(ControlMode.PercentOutput,-0.7);
+    pivotMotor.set(ControlMode.PercentOutput,-0.7);
   }
 
   public void PivotStop()
   {
-    intakeRollerMotor.set(ControlMode.PercentOutput,0.0);
+    pivotMotor.set(ControlMode.PercentOutput,0.0);
   }
 
    

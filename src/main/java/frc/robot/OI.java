@@ -1,5 +1,7 @@
 package frc.robot;
 
+import frc.robot.commands.StopAll;
+import frc.robot.commands.balloonbox.IntakeRollInside;
 import frc.robot.joysticks.XBoxJoystick;
 
 public class OI {
@@ -9,8 +11,11 @@ public class OI {
     }
 
     private void initJoystickOfHelper() {
-        XBoxJoystick joystick = XBoxJoystick.HELPER;
+        XBoxJoystick joystick = XBoxJoystick.DRIVER;
 
-        //joystick.A.whenPressed(new MoveElevatorToLowPosition());
+        joystick.A.whenPressed(new IntakeRollInside());
+        joystick.start.whenPressed(new StopAll());
+
+        
     }
 }
