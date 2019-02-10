@@ -15,7 +15,7 @@ public class RobotMap {
 	
 	// BalloonBox
 	public static final int INTAKE_ROLLER_MOTOR_ADDRESS = 3;
-	public static final int PIVOT_MOTOR_ADDRESS = 4;
+	public static final int PIVOT_MOTOR_ADDRESS = 9;
 
     public static void init() {
         // SmartDashboard.putData(Robot.elevator);
