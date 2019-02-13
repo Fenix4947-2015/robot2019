@@ -15,7 +15,6 @@ public class OI {
 
         joystick.A.whenPressed(new IntakeRollInside());
         joystick.start.whenPressed(new StopAll());
-
         
     }
 }

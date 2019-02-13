@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.components.ColorSensor;
 import frc.robot.subsystems.BalloonBox;
 import frc.robot.subsystems.DriveTrain;
 
@@ -19,6 +20,10 @@ public class Robot extends TimedRobot {
     public static BalloonBox ballonBox;
     public static OI oi;
 
+    // Components / Sensors
+    public static ColorSensor colorSensorMiddleLeft;
+    public static ColorSensor colorSensorRearCentre;
+    
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -27,6 +32,8 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         driveTrain = new DriveTrain();
         ballonBox = new BalloonBox();
+        colorSensorMiddleLeft = new ColorSensor(RobotMap.COLOR_SENSOR_MIDDLE_LEFT_ADDRESS);
+        colorSensorRearCentre = new ColorSensor(RobotMap.COLOR_SENSOR_REAR_CENTRE_ADDRESS);
 
         RobotMap.init();
 

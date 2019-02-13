@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
@@ -22,13 +21,9 @@ public class DriveTrain extends Subsystem {
 
   private DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
 
-  public ColorSensor sensor;
-
   public Pigeon pigeon = new Pigeon();
 
   public DriveTrain() {
-    sensor = new ColorSensor(Port.kOnboard);
-
     // Initialize drivetrain motors
     setMotorsAllowablePower(leftMotor1);
     setMotorsAllowablePower(leftMotor2);
@@ -56,20 +51,21 @@ public class DriveTrain extends Subsystem {
   public void initDefaultCommand() {
     setDefaultCommand(new DriveArcade());
   }
+
   public void driveArcadeMethod(double Speed, double Rotation) {
-    
-    
+
     double rotationValueGain = 0.70; // for full rotation speed, use 1. Tune to have smoother rotation.
     Rotation = Rotation * rotationValueGain;
-    
+
     double GoStraightCompensation = 0;
-    if(Math.abs(Speed) > 0.1)
-    {
-      // TODO Tune the constant values. Has a speed proportional component (friction in mechanism()  and a fixed component
-      GoStraightCompensation = Speed * DriveTrainConstants.GO_STRAIGHT_COMPENSATION_DYNAMIC + DriveTrainConstants.GO_STRAIGHT_COMPENSATION_STATIC * Math.signum(Speed)  ;             
+    if (Math.abs(Speed) > 0.1) {
+      // TODO Tune the constant values. Has a speed proportional component (friction
+      // in mechanism() and a fixed component
+      GoStraightCompensation = Speed * DriveTrainConstants.GO_STRAIGHT_COMPENSATION_DYNAMIC
+          + DriveTrainConstants.GO_STRAIGHT_COMPENSATION_STATIC * Math.signum(Speed);
     }
-    
-    robotDrive.arcadeDrive(Speed, Rotation + GoStraightCompensation);       	
+
+    robotDrive.arcadeDrive(Speed, Rotation + GoStraightCompensation);
   }
 
   public class Pigeon {
