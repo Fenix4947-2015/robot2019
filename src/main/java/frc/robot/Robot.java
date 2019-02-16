@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
 
     // Components / Sensors
     public static ColorSensor colorSensorMiddleLeft;
-    public static ColorSensor colorSensorRearCentre;
+    public static ColorSensor colorSensorRearLeft;
     
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
         driveTrain = new DriveTrain();
         ballonBox = new BalloonBox();
         colorSensorMiddleLeft = new ColorSensor(RobotMap.COLOR_SENSOR_MIDDLE_LEFT_ADDRESS);
-        colorSensorRearCentre = new ColorSensor(RobotMap.COLOR_SENSOR_REAR_CENTRE_ADDRESS);
+        colorSensorRearLeft = new ColorSensor(RobotMap.COLOR_SENSOR_REAR_LEFT_ADDRESS);
 
         RobotMap.init();
 

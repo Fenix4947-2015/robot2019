@@ -22,7 +22,7 @@ public class RobotMap {
 
 	// Color Sensors
 	public static final int COLOR_SENSOR_MIDDLE_LEFT_ADDRESS = 0x10;
-	public static final int COLOR_SENSOR_REAR_CENTRE_ADDRESS = 0x14;
+	public static final int COLOR_SENSOR_REAR_LEFT_ADDRESS = 0x14;
 	
     public static void init() {
         // SmartDashboard.putData(Robot.elevator);

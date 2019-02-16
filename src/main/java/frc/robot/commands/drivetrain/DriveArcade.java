@@ -14,6 +14,11 @@ import frc.robot.joysticks.XBoxButton;
 import frc.robot.joysticks.XBoxJoystick;
 
 public class DriveArcade extends Command {
+
+  private boolean moveToLineBackward = false;
+  private boolean moveToLineForward = false;
+  private boolean stayOnLine = false;
+
   public DriveArcade() {
     requires(Robot.driveTrain);
   }
@@ -30,13 +35,56 @@ public class DriveArcade extends Command {
     // 0.1);
 
     final boolean lockOnLineMode = XBoxJoystick.DRIVER.getButton(XBoxButton.BUMPER_LEFT);
-    final boolean colorSensorOnLine = Robot.colorSensorRearCentre.isOnReflectiveLine();
 
-    double moveValue = XBoxJoystick.DRIVER.getY(Hand.kLeft);
-    double rotateValue = XBoxJoystick.DRIVER.getX(Hand.kLeft);
+    final boolean lineHitRearLeft = Robot.colorSensorRearLeft.isOnReflectiveLine();
+    final boolean lineHitRearRight = false;
 
-    if (lockOnLineMode && colorSensorOnLine) {
+    final boolean lineHitFrontLeft = false;
+    final boolean lineHitFrontRight = false;
+
+    final boolean lineHitMiddleLeft = Robot.colorSensorMiddleLeft.isOnReflectiveLine();
+    final boolean lineHitMiddleRight = false;
+
+    double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
+    double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
+    double moveValue = movePosValue - moveNegValue;
+    double rotateValue = XBoxJoystick.DRIVER.getX(Hand.kLeft, 0.05);
+
+    // System.out.println("Move value: " + moveValue);
+    // System.out.println("Rotate value: " + rotateValue);
+
+    if (!lockOnLineMode) {
+      moveToLineBackward = false;
+      moveToLineForward = false;
+      stayOnLine = false;
+    } else {
+      if (lineHitRearLeft || lineHitRearRight) {
+        moveToLineBackward = true;
+        moveToLineForward = false;
+        stayOnLine = false;
+        System.out.println("Line hit rear");
+      } else if (lineHitFrontLeft || lineHitFrontRight) {
+        moveToLineBackward = false;
+        moveToLineForward = true;
+        stayOnLine = false;
+        System.out.println("Line hit front");
+      } else if (lineHitMiddleLeft || lineHitMiddleRight) {
+        moveToLineBackward = false;
+        moveToLineForward = false;
+        stayOnLine = true;
+        System.out.println("Line hit middle");
+      }
+    }
+
+    if (moveToLineBackward) {
+      moveValue = 0.25;
+      rotateValue = 0.0;
+    } else if (moveToLineForward) {
+      moveValue = -0.25;
+      rotateValue = 0.0;
+    } else if (stayOnLine) {
       moveValue = 0.0;
+      rotateValue = 0.0;
     }
 
     Robot.driveTrain.driveArcadeMethod(-moveValue, rotateValue);

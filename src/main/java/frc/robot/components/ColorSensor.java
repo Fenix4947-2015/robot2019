@@ -1,11 +1,13 @@
 package frc.robot.components;
 
+import java.nio.ByteBuffer;
+
 import edu.wpi.first.wpilibj.I2C;
 
 public class ColorSensor {
 
   // TODO: make this parameterizable
-  public static final int LINE_DETECTION_THRESHOLD = 2;
+  public static final int LINE_DETECTION_THRESHOLD = 600;
 
   public final static int FIRMWARE_REV_REGISTER = 0x00;
   public final static int MANUFACTURER_REGISTER = 0x01;
@@ -44,6 +46,7 @@ public class ColorSensor {
 
   public ColorSensor(int address) {
     i2c = new I2C(I2C.Port.kOnboard, address >> 1);
+    i2c.write(COMMAND_REGISTER, ACTIVE_MODE_COMMAND);
   }
 
   public int readColorNumber() {
@@ -51,7 +54,7 @@ public class ColorSensor {
   }
 
   public int readWhite() {
-    return readByte(ColorSensor.WHITE_READING_REGISTER_MSB);
+    return read16bitInt(ColorSensor.WHITE_READING_REGISTER_LSB, ColorSensor.WHITE_READING_REGISTER_MSB);
   }
 
   public boolean isOnReflectiveLine() {
@@ -65,6 +68,14 @@ public class ColorSensor {
     boolean success1 = !i2c.read(register, byteBuff.length, byteBuff);
     //System.out.println("Success: " + success1);
     return byteBuff[0];
+  }
+
+  private int read16bitInt(int lsbRegister, int msbRegister) {
+    byte[] buf = new byte[2];
+    buf[1] = readByte(lsbRegister);
+    buf[0] = readByte(msbRegister);
+    ByteBuffer bb = ByteBuffer.wrap(buf);
+    return bb.getShort() & 0xffff; // mask unsigned short value
   }
 
   public void enableActiveMode() {
