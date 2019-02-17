@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.I2C;
 public class ColorSensor {
 
   // TODO: make this parameterizable
-  public static final int LINE_DETECTION_THRESHOLD = 450;
+  public static final int LINE_DETECTION_THRESHOLD = 200;
 
   public final static int FIRMWARE_REV_REGISTER = 0x00;
   public final static int MANUFACTURER_REGISTER = 0x01;
@@ -89,4 +89,12 @@ public class ColorSensor {
     i2c.write(ColorSensor.COMMAND_REGISTER, ColorSensor.ACTIVE_MODE_COMMAND);
   }
 
+  
+  public void whiteCalibration() {
+    i2c.write(ColorSensor.COMMAND_REGISTER, ColorSensor.WHITE_BAL_COMMAND);
+  }
+  
+  public void blackCalibration() {
+    i2c.write(ColorSensor.COMMAND_REGISTER, ColorSensor.BLACK_CAL_COMMAND);
+  }
 }

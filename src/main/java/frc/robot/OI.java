@@ -16,5 +16,8 @@ public class OI {
         joystick.A.whenPressed(new IntakeRollInside());
         joystick.start.whenPressed(new StopAll());
         
+        //joystick.X.whenPressed(new ColorSensorCalibration(true));
+        //joystick.Y.whenPressed(new ColorSensorCalibration(false));
+        
     }
 }
