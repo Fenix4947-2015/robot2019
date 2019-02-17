@@ -28,8 +28,6 @@ public class BalloonBox extends Subsystem {
 
     private static final boolean LIMIT_SWITCH_PRESSED_STATE = false;
     private static final boolean LIMIT_SWITCH_RELEASED_STATE = !LIMIT_SWITCH_PRESSED_STATE;
-    
-    
 
     public BalloonBox() {
         createIntakeRollerMotor();
@@ -69,7 +67,7 @@ public class BalloonBox extends Subsystem {
         pivotMotor.configNominalOutputReverse(0.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
         pivotMotor.configPeakOutputForward(1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
         pivotMotor.configPeakOutputReverse(-1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
-    }    
+    }
 
     @Override
     public void initDefaultCommand() {
@@ -111,12 +109,10 @@ public class BalloonBox extends Subsystem {
     public void pivot(double output) {
         // prohibit speed to be positive if we are at max position already.
         double limitProtectedOutput = output;
-        if(pivotLimitSwitchHigh.get() == LIMIT_SWITCH_PRESSED_STATE)
-        {
+        if (pivotLimitSwitchHigh.get() == LIMIT_SWITCH_PRESSED_STATE) {
             limitProtectedOutput = Math.min(output, 0.0);
         }
-        if(pivotLimitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE)
-        {
+        if (pivotLimitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE) {
             limitProtectedOutput = Math.max(output, 0.0);
         }
         pivotMotor.set(ControlMode.PercentOutput, limitProtectedOutput);
