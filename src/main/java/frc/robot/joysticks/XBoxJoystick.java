@@ -6,8 +6,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotMap;
 
 public enum XBoxJoystick {
-    DRIVER(RobotMap.JOYSTICK_DRIVER_PORT),
-    HELPER(RobotMap.JOYSTICK_HELPER_PORT);
+    DRIVER(RobotMap.JOYSTICK_DRIVER_PORT);
 
     private static final double DEFAULT_DEADBAND = 0.1;
 

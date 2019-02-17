@@ -17,8 +17,10 @@ public class RobotMap {
     public static final int RIGHT_MOTOR2_ADDRESS = 2;
 	
 	// Balloon box.
-	public static final int INTAKE_ROLLER_MOTOR_ADDRESS = 3;
-	public static final int PIVOT_MOTOR_ADDRESS = 9;
+    public static final int INTAKE_ROLLER_MOTOR_ADDRESS = 3;
+    public static final int PIVOT_MOTOR_ADDRESS = 9;
+    public static final int LEFT_SOLENOID_ADDRESS = 1;
+    public static final int RIGHT_SOLENOID_ADDRESS = 2;
 
 	// Elevator.
 	public static final int ELEVATOR_MOTOR_ADDRESS = 5;
