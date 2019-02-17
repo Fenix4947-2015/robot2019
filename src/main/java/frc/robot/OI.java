@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.StopAll;
@@ -9,6 +8,7 @@ import frc.robot.commands.balloonbox.CloseRight;
 import frc.robot.commands.balloonbox.IntakeRollInside;
 import frc.robot.commands.balloonbox.OpenLeft;
 import frc.robot.commands.balloonbox.OpenRight;
+import frc.robot.commands.elevator.MoveElevatorToMiddlePosition;
 import frc.robot.joysticks.XBoxJoystick;
 
 public class OI {
@@ -30,13 +30,13 @@ public class OI {
         joystick.X.whenPressed(new CloseLeft());
         joystick.Y.whenPressed(new OpenLeft());
 
+        joystick.bumperRight.whenPressed(new MoveElevatorToMiddlePosition());
         joystick.stickRight.whileHeld(new IntakeRollInside());
 
         joystick.start.whenPressed(new StopAll());
     }
 
-    public void log()
-    {
+    public void log() {
         SmartDashboard.putNumber("JoystickDriverLeftX", XBoxJoystick.DRIVER.getX(Hand.kLeft));
         SmartDashboard.putNumber("JoystickDriverLeftY", XBoxJoystick.DRIVER.getY(Hand.kLeft));
         SmartDashboard.putNumber("JoystickDriverRightX", XBoxJoystick.DRIVER.getX(Hand.kRight));
