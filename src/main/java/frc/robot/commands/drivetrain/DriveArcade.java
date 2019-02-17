@@ -7,8 +7,6 @@
 
 package frc.robot.commands.drivetrain;
 
-import java.time.Instant;
-
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
@@ -18,11 +16,7 @@ import frc.robot.joysticks.XBoxJoystick;
 
 public class DriveArcade extends Command {
 
-  private boolean moveToLineBackward = false;
-  private boolean moveToLineForward = false;
-  private boolean stayOnLine = false;
   private MoveMode moveMode = MoveMode.MANUAL;
-  private Instant previousRunTime = Instant.now();
 
   public DriveArcade() {
     requires(Robot.driveTrain);
@@ -41,15 +35,7 @@ public class DriveArcade extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // double moveValue = Robot.oi.getJoystickDriverAxis(XBoxAxis.LEFT_STICK_Y,
-    // 0.1);
-    // final Duration delta = Duration.between(previousRunTime, Instant.now());
-    // final double freq = 1.0 / ((double) delta.toMillis() / 1000.0);
-    // System.out.println("Delta since last run: " + delta + "; frequency: " +
-    // freq);
-    // previousRunTime = Instant.now();
-
-    final boolean lockOnLineMode = XBoxJoystick.DRIVER.getButton(XBoxButton.BUMPER_LEFT);
+    final boolean lockOnLineMode = XBoxJoystick.DRIVER.getButton(XBoxButton.B);
 
     final boolean lineHitRearLeft = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.REAR_LEFT);
     final boolean lineHitRearRight = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.REAR_RIGHT);
@@ -60,8 +46,8 @@ public class DriveArcade extends Command {
     final boolean lineHitMiddleLeft = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_LEFT);
     final boolean lineHitMiddleRight = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_RIGHT);
 
-    double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
-    double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
+    double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
+    double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
     double moveValue = movePosValue - moveNegValue;
     double rotateValue = XBoxJoystick.DRIVER.getX(Hand.kLeft, 0.05);
 
