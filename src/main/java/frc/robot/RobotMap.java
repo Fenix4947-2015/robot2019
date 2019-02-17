@@ -29,5 +29,7 @@ public class RobotMap {
 	
     public static void init() {
         SmartDashboard.putData(Scheduler.getInstance());
+
+        SmartDashboard.putData(Robot.ballonBox);
     }
 }

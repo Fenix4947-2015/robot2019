@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.BalloonBox;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -12,6 +13,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class Robot extends TimedRobot {
     
     // Subsystems.
+    public static BalloonBox ballonBox;
+
+    // Operator interfaces.
     public static OI oi;
 
     /**
@@ -20,6 +24,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        ballonBox = new BalloonBox();
+
         RobotMap.init();
 
         oi = new OI();
@@ -34,6 +40,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+        ballonBox.robotPeriodic();
     }
 
     @Override
