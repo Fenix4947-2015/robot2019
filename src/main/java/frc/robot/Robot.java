@@ -24,6 +24,9 @@ public class Robot extends TimedRobot {
     // Operator interfaces.
     public static OI oi;
 
+	  // Components / Sensors
+	  public static SensorMonitor sensorMonitor;
+
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -38,6 +41,8 @@ public class Robot extends TimedRobot {
         RobotMap.init();
 
         oi = new OI();
+        
+        sensorMonitor = new SensorMonitor();
     }
 
     /**
@@ -56,6 +61,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+    		sensorMonitor.startMonitoring();
     }
 
     @Override
@@ -65,6 +71,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+    		sensorMonitor.startMonitoring();
     }
 
     @Override
@@ -80,4 +87,10 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
         Scheduler.getInstance().run();
     }
+    
+    @Override
+  	public void disabledInit() {
+    		sensorMonitor.stopMonitoring();
+    		System.out.println("Robot disabled");
+  	}
 }

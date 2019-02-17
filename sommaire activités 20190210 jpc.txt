@@ -1,0 +1,48 @@
+notes activités 10 fevrier 2019
+jean-philippe choiniere
+
+Talon de rotation de mouvement du bras de l'intake.
+Branchement dans le pdp : en ce moment, il est mis sur une fuse 5 A (que j'ai du voler du bench). 
+Considérer brancher le talon qui alimente les rouleaux de l'intake sur le 5A èa la place : moins de torque requis. Mettre le talon du mouvement du bras d'intake sur le 40A. 
+
+Réassignation des talons : truc : utiliser les fuse du pdp pour les activer un à la fois au lieu de jouer avec le cablage can. 
+
+J'ai mis à jour le fichier de branchement des talons. Valider que c'Est conforme avec le robot. 
+Mettre à jour les sticker sur le talon du bras de mouvement d'intake et le moteur (ID: 9)
+		
+		
+		Debug de problemes de build.
+		dans vs code, ouvrir un nouveau terminal dans le workspace du projet. 
+		sortir de power shell en cmd : taper cmd
+		ensuite, restaurer les problemes de dépendances en étant connecté à internet et tapant 
+		 gradlew build -Dorg.gradle.java.home="C:\Users\Public\frc2019\jdk"
+		 
+		 
+		 
+		 Talons : il y a un nouveau firmware qui est obligatoire. Version 4.15 maintenant. Mettre à jour le robot de pratique et le bench. disponible sur le site de ctre, talons. 
+		 
+		 
+		Pivot de l'intake,
+		Encodeur faut environ 4200 coups pour 180 degrés. Mesuré avec phoenix tuner. Mesure excluant le backlash. On est accoté dans le même sens les deux fois. 
+		Le jeu (backlash) fait environ 750 coups de large. 
+		
+		
+		
+		encodeur des roues 
+		test 1 : 12 pieds
+		left encoder, moving forward. start at -7224, end at -10856 // delta -3632 ou -302.6 comptes / pied.		
+		left encoder, moving backwards, start at -10856 end at -7217 // delta -3639 ou -303.25 comptes / pied.
+		LEFT : le compte diminue quand on avance
+		
+		test 2 ; 12 pieds
+		right encoder, moving backwards; start at 6825, end at 3259 // delta 3566 ou +297.2 comptes / pied. 
+		right encoder , moving backwards, start at 1333, end at -2260	// delta 3593 ou +299.4 comptes / pied
+		RIGHT: le compte augmente quand on avance. 
+		
+			 
+		Verification des encodeurs avec phoenix tuner. 
+		Les deux encodeurs sont fonctionnels au niveau hardware. 
+		L'encodeur de droite (ID 6) : le comptes d'encodeur montent quand on avance le robot.
+		L'encodeur de gauche (ID 5): Les comptes d'encodeur descendent quand on avance le robot. 
+		C'est donc normal que les deux n'affichent pas le même compte durant un mouvement. Cela est compensé par la programmation.
+		
