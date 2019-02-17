@@ -1,5 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class RobotMap {
 	
 	// Joysticks.
@@ -25,6 +28,6 @@ public class RobotMap {
 	public static final int COLOR_SENSOR_REAR_LEFT_ADDRESS = 0x14;
 	
     public static void init() {
-        // SmartDashboard.putData(Robot.elevator);
+        SmartDashboard.putData(Scheduler.getInstance());
     }
 }
