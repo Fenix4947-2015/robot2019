@@ -7,9 +7,12 @@
 
 package frc.robot.commands.drivetrain;
 
+import java.time.Instant;
+
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.components.SensorMonitor.SensorPos;
 import frc.robot.joysticks.XBoxButton;
 import frc.robot.joysticks.XBoxJoystick;
 
@@ -18,6 +21,8 @@ public class DriveArcade extends Command {
   private boolean moveToLineBackward = false;
   private boolean moveToLineForward = false;
   private boolean stayOnLine = false;
+  private MoveMode moveMode = MoveMode.MANUAL;
+  private Instant previousRunTime = Instant.now();
 
   public DriveArcade() {
     requires(Robot.driveTrain);
@@ -28,22 +33,32 @@ public class DriveArcade extends Command {
   protected void initialize() {
   }
 
+  private enum MoveMode {
+    MANUAL, BACKWARD_TO_LINE, FORWARD_TO_LINE, OVERSHOOT_FORWARD, OVERSHOOT_BACKWARD, STAY_ON_LINE_FORWARD,
+    STAY_ON_LINE_BACKWARD, STAY_ON_LINE_STOP
+  }
+
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     // double moveValue = Robot.oi.getJoystickDriverAxis(XBoxAxis.LEFT_STICK_Y,
     // 0.1);
+    // final Duration delta = Duration.between(previousRunTime, Instant.now());
+    // final double freq = 1.0 / ((double) delta.toMillis() / 1000.0);
+    // System.out.println("Delta since last run: " + delta + "; frequency: " +
+    // freq);
+    // previousRunTime = Instant.now();
 
     final boolean lockOnLineMode = XBoxJoystick.DRIVER.getButton(XBoxButton.BUMPER_LEFT);
 
-    final boolean lineHitRearLeft = Robot.colorSensorRearLeft.isOnReflectiveLine();
-    final boolean lineHitRearRight = false;
+    final boolean lineHitRearLeft = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.REAR_LEFT);
+    final boolean lineHitRearRight = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.REAR_RIGHT);
 
-    final boolean lineHitFrontLeft = false;
-    final boolean lineHitFrontRight = false;
+    final boolean lineHitFrontLeft = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.FRONT_LEFT);
+    final boolean lineHitFrontRight = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.FRONT_RIGHT);
 
-    final boolean lineHitMiddleLeft = Robot.colorSensorMiddleLeft.isOnReflectiveLine();
-    final boolean lineHitMiddleRight = false;
+    final boolean lineHitMiddleLeft = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_LEFT);
+    final boolean lineHitMiddleRight = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_RIGHT);
 
     double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
     double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
@@ -54,37 +69,90 @@ public class DriveArcade extends Command {
     // System.out.println("Rotate value: " + rotateValue);
 
     if (!lockOnLineMode) {
-      moveToLineBackward = false;
-      moveToLineForward = false;
-      stayOnLine = false;
+      moveMode = MoveMode.MANUAL;
     } else {
-      if (lineHitRearLeft || lineHitRearRight) {
-        moveToLineBackward = true;
-        moveToLineForward = false;
-        stayOnLine = false;
-        System.out.println("Line hit rear");
-      } else if (lineHitFrontLeft || lineHitFrontRight) {
-        moveToLineBackward = false;
-        moveToLineForward = true;
-        stayOnLine = false;
-        System.out.println("Line hit front");
-      } else if (lineHitMiddleLeft || lineHitMiddleRight) {
-        moveToLineBackward = false;
-        moveToLineForward = false;
-        stayOnLine = true;
-        System.out.println("Line hit middle");
+      switch (moveMode) {
+      case MANUAL:
+        if (lineHitRearLeft || lineHitRearRight) {
+          moveMode = MoveMode.BACKWARD_TO_LINE;
+          System.out.println("Line hit rear");
+        } else if (lineHitFrontLeft || lineHitFrontRight) {
+          moveMode = MoveMode.FORWARD_TO_LINE;
+          System.out.println("Line hit front");
+        }
+        break;
+      case BACKWARD_TO_LINE:
+        if (lineHitMiddleLeft || lineHitMiddleRight) {
+          moveMode = MoveMode.STAY_ON_LINE_BACKWARD;
+          System.out.println("Line hit middle from backward");
+        }
+        break;
+      case FORWARD_TO_LINE:
+        if (lineHitMiddleLeft || lineHitMiddleRight) {
+          moveMode = MoveMode.STAY_ON_LINE_FORWARD;
+          System.out.println("Line hit middle from forward");
+        }
+        break;
+      case STAY_ON_LINE_BACKWARD:
+        if (!(lineHitMiddleLeft || lineHitMiddleRight)) {
+          // overshoot
+          moveMode = MoveMode.OVERSHOOT_BACKWARD;
+          System.out.println("Overshoot from backward");
+        }
+        break;
+      case STAY_ON_LINE_FORWARD:
+        if (!(lineHitMiddleLeft || lineHitMiddleRight)) {
+          // overshoot
+          moveMode = MoveMode.OVERSHOOT_FORWARD;
+          System.out.println("Overshoot from forward");
+        }
+        break;
+      case OVERSHOOT_BACKWARD:
+        if (lineHitMiddleLeft || lineHitMiddleRight) {
+          // overshoot
+          moveMode = MoveMode.STAY_ON_LINE_FORWARD;
+          System.out.println("Back on line from overshoot backward");
+        }
+        break;
+      case OVERSHOOT_FORWARD:
+        if (lineHitMiddleLeft || lineHitMiddleRight) {
+          // overshoot
+          moveMode = MoveMode.STAY_ON_LINE_BACKWARD;
+          System.out.println("Back on line from overshoot forward");
+        }
+        break;
+      case STAY_ON_LINE_STOP:
+        break;
       }
     }
 
-    if (moveToLineBackward) {
-      moveValue = 0.25;
+    switch (moveMode) {
+    case MANUAL:
+      break;
+    case BACKWARD_TO_LINE:
+      moveValue = 0.30;
       rotateValue = 0.0;
-    } else if (moveToLineForward) {
-      moveValue = -0.25;
+      break;
+    case FORWARD_TO_LINE:
+      moveValue = -0.30;
       rotateValue = 0.0;
-    } else if (stayOnLine) {
+      break;
+    case OVERSHOOT_FORWARD:
+      moveValue = 0.35;
+      rotateValue = 0.0;
+      break;
+    case OVERSHOOT_BACKWARD:
+      moveValue = -0.35;
+      rotateValue = 0.0;
+      break;
+    case STAY_ON_LINE_STOP:
+    case STAY_ON_LINE_FORWARD:
+    case STAY_ON_LINE_BACKWARD:
       moveValue = 0.0;
       rotateValue = 0.0;
+      break;
+    default:
+      break;
     }
 
     Robot.driveTrain.driveArcadeMethod(-moveValue, rotateValue);

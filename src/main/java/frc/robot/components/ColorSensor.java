@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.I2C;
 public class ColorSensor {
 
   // TODO: make this parameterizable
-  public static final int LINE_DETECTION_THRESHOLD = 600;
+  public static final int LINE_DETECTION_THRESHOLD = 450;
 
   public final static int FIRMWARE_REV_REGISTER = 0x00;
   public final static int MANUFACTURER_REGISTER = 0x01;
@@ -46,7 +46,7 @@ public class ColorSensor {
 
   public ColorSensor(int address) {
     i2c = new I2C(I2C.Port.kOnboard, address >> 1);
-    i2c.write(COMMAND_REGISTER, ACTIVE_MODE_COMMAND);
+    enableActiveMode();
   }
 
   public int readColorNumber() {
@@ -60,13 +60,16 @@ public class ColorSensor {
   public boolean isOnReflectiveLine() {
     int whiteValue = readWhite();
     //System.out.println("White value: " + whiteValue);
-    //System.out.println("Color number: " + readColorNumber());
+    return isOnReflectiveLine(whiteValue);
+  }
+
+  public static boolean isOnReflectiveLine(int whiteValue) {
     return whiteValue > LINE_DETECTION_THRESHOLD;
   }
 
   private byte readByte(int register) {
-    boolean success1 = !i2c.read(register, byteBuff.length, byteBuff);
-    //System.out.println("Success: " + success1);
+    boolean success = !i2c.read(register, byteBuff.length, byteBuff);
+    //System.out.println("Success: " + success);
     return byteBuff[0];
   }
 
@@ -78,7 +81,12 @@ public class ColorSensor {
     return bb.getShort() & 0xffff; // mask unsigned short value
   }
 
-  public void enableActiveMode() {
+  public void enablePassiveMode() {
     i2c.write(ColorSensor.COMMAND_REGISTER, ColorSensor.PASSIVE_MODE_COMMAND);
   }
+  
+  public void enableActiveMode() {
+    i2c.write(ColorSensor.COMMAND_REGISTER, ColorSensor.ACTIVE_MODE_COMMAND);
+  }
+
 }
