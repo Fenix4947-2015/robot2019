@@ -20,6 +20,8 @@ public class OI {
     }
 
     private void initJoystickOfDriver(XBoxJoystick joystick) {
+		    //joystick.X.whenPressed(new ColorSensorCalibration(true));
+        //joystick.Y.whenPressed(new ColorSensorCalibration(false));
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {

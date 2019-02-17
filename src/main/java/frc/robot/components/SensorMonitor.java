@@ -45,14 +45,14 @@ public class SensorMonitor {
     task = new TimerTask() {
       @Override
       public void run() {
-        //System.out.println("In timer task run; " + Instant.now());
+        // System.out.println("In timer task run; " + Instant.now());
         for (Entry<SensorMonitor.SensorPos, ColorSensor> entry : sensors.entrySet()) {
           synchronized (SensorMonitor.this) {
             if (!linesDetected.contains(entry.getKey())) {
               int whiteValue = entry.getValue().readWhite();
               SmartDashboard.putNumber("ColorSensor_" + entry.getKey(), (double) whiteValue);
               if (ColorSensor.isOnReflectiveLine(whiteValue)) {
-                //System.out.println("Line detected for sensor " + entry.getKey());
+                // System.out.println("Line detected for sensor " + entry.getKey());
                 SmartDashboard.putBoolean("ColorSensor_" + entry.getKey() + "_lineDetected", true);
                 linesDetected.add(entry.getKey());
               }
@@ -90,5 +90,9 @@ public class SensorMonitor {
       clearLineDetected(sensor);
     }
     return lineDetected;
+  }
+
+  public ColorSensor getColorSensor(SensorPos sensor) {
+    return sensors.get(sensor);
   }
 }
