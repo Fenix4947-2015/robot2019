@@ -1,0 +1,21 @@
+25000 middle
+To do list
+-protection sur les ballon box out. (pas les 2 en même temps)
+-programmer la routine de transfert de ballon avec l'élévateur
+-programmer la boucle PID d'élévateur continue
+-commande manuelle d'élévateur change le setpoint
+-programmer le shifter
+-programmer la fonction comptes -> hauteur de l'élévateur
+-bout de code pour le hatch.
+-elevateur : faire une methode pour chaque target de hauteur. 
+-intégrer la routine d'alignement
+-mapping des sensors de couleur par terre.
+-cablage pour les sensors de couleur (6 en parallele)
+-capteur de ballon à l'intérieur.
+-mapping de boutons.
+-pivot : changer les vitesses de montée pour protection. 
+-PID de pivot
+-trouver les positions de pivot (ramassage au sol)
+- zeroing de pivot. 
+-protection position maximale d'élévateur. 
+

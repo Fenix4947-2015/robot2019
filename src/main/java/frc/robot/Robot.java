@@ -56,8 +56,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         ballonBox.log();
-        elevator.log();
+        elevator.log();        
         oi.log();
+        
     }
 
     @Override
@@ -68,6 +69,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        elevator.periodicLogic();
     }
 
     @Override
@@ -78,6 +80,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        elevator.periodicLogic();
     }
 
     @Override

@@ -15,7 +15,7 @@ import frc.robot.commands.elevator.MoveElevatorManually;
 
 public class Elevator extends Subsystem {
 
-    public static final double COMMAND_TIMEOUT_IN_SECONDS = 2.0;
+    public static final double COMMAND_TIMEOUT_IN_SECONDS = 20.0;
 
     private static final boolean LIMIT_SWITCH_PRESSED_STATE = false;
 
@@ -113,7 +113,7 @@ public class Elevator extends Subsystem {
 
     public void move(double output) {
         double limitProtectedOutput = output;
-
+        
         if (limitSwitchHigh.get() == LIMIT_SWITCH_PRESSED_STATE) {
             limitProtectedOutput = Math.min(output, 0.0);
         }
@@ -126,11 +126,20 @@ public class Elevator extends Subsystem {
         motor.set(ControlMode.PercentOutput, limitProtectedOutput);
     }
 
+    public void doZeroIfLow()
+    {
+        if(isLow())
+        {
+            zero();
+        }
+    }
+
     public void moveToLow() {
         motor.set(ControlMode.PercentOutput, -MOVE_OUTPUT);
     }
 
     public void moveToMiddle() {
+        //POSITION_MIDDLE_IN_COUNTS
         motor.set(ControlMode.MotionMagic, POSITION_MIDDLE_IN_COUNTS, DemandType.ArbitraryFeedForward, FEED_FORWARD);
         // motor.set(ControlMode.Position, POSITION_MIDDLE_IN_COUNTS);
     }
@@ -160,7 +169,7 @@ public class Elevator extends Subsystem {
     }
 
     public boolean isLow() {
-        return motor.getSensorCollection().isFwdLimitSwitchClosed();
+        return limitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE;
     }
 
     public boolean isMiddle() {
@@ -173,7 +182,7 @@ public class Elevator extends Subsystem {
     }
 
     public boolean isHigh() {
-        return motor.getSensorCollection().isRevLimitSwitchClosed();
+        return limitSwitchHigh.get() == LIMIT_SWITCH_PRESSED_STATE;
     }
 
     public void log() {
@@ -181,5 +190,10 @@ public class Elevator extends Subsystem {
         SmartDashboard.putBoolean("Elevator hight switch", limitSwitchHigh.get());
 
         SmartDashboard.putNumber("Elevator position", getSensorPosition());
+    }
+
+    public void periodicLogic()
+    {
+        doZeroIfLow();
     }
 }

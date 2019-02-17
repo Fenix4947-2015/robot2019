@@ -54,7 +54,7 @@ public class DriveTrain extends Subsystem {
 
   public void driveArcadeMethod(double Speed, double Rotation) {
 
-    double rotationValueGain = 0.70; // for full rotation speed, use 1. Tune to have smoother rotation.
+    double rotationValueGain = 1.0; // for full rotation speed, use 1. Tune to have smoother rotation.
     Rotation = Rotation * rotationValueGain;
 
     double GoStraightCompensation = 0;

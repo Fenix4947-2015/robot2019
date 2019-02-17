@@ -1,13 +1,13 @@
 package frc.robot.commands.elevator;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Elevator;
 
-public class MoveElevatorToMiddlePosition extends TimedCommand {
+public class MoveElevatorToMiddlePosition extends Command {
     
     public MoveElevatorToMiddlePosition() {
-        super(Elevator.COMMAND_TIMEOUT_IN_SECONDS);
+        
 
         requires(Robot.elevator);
         
@@ -25,7 +25,7 @@ public class MoveElevatorToMiddlePosition extends TimedCommand {
 
     @Override
     protected boolean isFinished() {
-        return Robot.elevator.isMiddle() || isTimedOut();
+        return false;
     }
 
     @Override
