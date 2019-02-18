@@ -17,21 +17,11 @@ public class ManualControl extends Command {
 
     @Override
     protected void execute() {
+        double triggers = XBoxJoystick.HELPER.getTriggerAxes(0.2);
+        Robot.ballonBox.intakeRoll(triggers);
+
         double y = XBoxJoystick.HELPER.getY(Hand.kRight);
-
-        double yAbs = Math.abs(y);
-        if (yAbs >= 0.1) {
-            Robot.ballonBox.pivot(y);
-        } else {
-            Robot.ballonBox.pivotStop();
-        }
-
-        double triggerRight = XBoxJoystick.HELPER.getTriggerAxis(Hand.kRight);
-        if (triggerRight > 0.2) {
-            Robot.ballonBox.intakeRollInside();
-        } else {
-            Robot.ballonBox.intakeStop();
-        }
+        Robot.ballonBox.pivot(y);
     }
 
     @Override

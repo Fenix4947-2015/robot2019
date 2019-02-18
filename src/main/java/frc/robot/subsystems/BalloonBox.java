@@ -13,60 +13,57 @@ import frc.robot.commands.balloonbox.ManualControl;
 
 public class BalloonBox extends Subsystem {
 
+    public static final double FLIPPER_TIMEOUT_IN_S = 1.0;
+
     private static final int MOTOR_CONFIG_TIMEOUT_IN_MS = 30;
-
-    private static final boolean SOLENOID_STATE_OPEN = true;
-    private static final boolean SOLENOID_STATE_CLOSE = !SOLENOID_STATE_OPEN;
-
-    private WPI_TalonSRX intakeRollerMotor;
-    private WPI_TalonSRX pivotMotor;
-    private Solenoid leftSolenoid;
-    private Solenoid rightSolenoid;
-
-    private DigitalInput pivotLimitSwitchLow;
-    private DigitalInput pivotLimitSwitchHigh;
 
     private static final boolean LIMIT_SWITCH_PRESSED_STATE = false;
     private static final boolean LIMIT_SWITCH_RELEASED_STATE = !LIMIT_SWITCH_PRESSED_STATE;
 
+    private static final boolean FLIPPER_STATE_OPEN = true;
+    private static final boolean FLIPPER_STATE_CLOSE = !FLIPPER_STATE_OPEN;
+
+    private WPI_TalonSRX intakeRollerMotor;
+
+    private WPI_TalonSRX pivotMotor;
+    private DigitalInput pivotLimitSwitchLow;
+    private DigitalInput pivotLimitSwitchHigh;
+
+    private Solenoid flipperLeftSolenoid;
+    private Solenoid flipperRightSolenoid;
+
     public BalloonBox() {
         createIntakeRollerMotor();
+
         createPivotMotor();
-
-        leftSolenoid = new Solenoid(RobotMap.LEFT_SOLENOID_ADDRESS);
-        rightSolenoid = new Solenoid(RobotMap.RIGHT_SOLENOID_ADDRESS);
-
         pivotLimitSwitchLow = new DigitalInput(RobotMap.PIVOT_LIMIT_SWITCH_LOW);
         pivotLimitSwitchHigh = new DigitalInput(RobotMap.PIVOT_LIMIT_SWITCH_HIGH);
 
-        closeLeft();
-        closeRight();
+        flipperLeftSolenoid = new Solenoid(RobotMap.FLIPPER_LEFT_SOLENOID_ADDRESS);
+        flipperRightSolenoid = new Solenoid(RobotMap.FLIPPER_RIGHT_SOLENOID_ADDRESS);
     }
 
     private void createIntakeRollerMotor() {
-        intakeRollerMotor = new WPI_TalonSRX(RobotMap.INTAKE_ROLLER_MOTOR_ADDRESS);
-        intakeRollerMotor.configFactoryDefault();
-
-        intakeRollerMotor.setNeutralMode(NeutralMode.Brake);
-        intakeRollerMotor.setSafetyEnabled(false);
-
-        intakeRollerMotor.configNominalOutputForward(0.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
-        intakeRollerMotor.configNominalOutputReverse(0.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
-        intakeRollerMotor.configPeakOutputForward(1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
-        intakeRollerMotor.configPeakOutputReverse(-1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        intakeRollerMotor = createMotor(RobotMap.INTAKE_ROLLER_MOTOR_ADDRESS);
     }
 
     private void createPivotMotor() {
-        pivotMotor = new WPI_TalonSRX(RobotMap.PIVOT_MOTOR_ADDRESS);
-        pivotMotor.configFactoryDefault();
+        pivotMotor = createMotor(RobotMap.PIVOT_MOTOR_ADDRESS);
+    }
 
-        pivotMotor.setNeutralMode(NeutralMode.Brake);
-        pivotMotor.setSafetyEnabled(false);
+    private static WPI_TalonSRX createMotor(int deviceNumber) {
+        WPI_TalonSRX motor = new WPI_TalonSRX(deviceNumber);
+        motor.configFactoryDefault();
 
-        pivotMotor.configNominalOutputForward(0.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
-        pivotMotor.configNominalOutputReverse(0.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
-        pivotMotor.configPeakOutputForward(1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
-        pivotMotor.configPeakOutputReverse(-1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.setNeutralMode(NeutralMode.Brake);
+        motor.setSafetyEnabled(false);
+
+        motor.configNominalOutputForward(0.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.configNominalOutputReverse(0.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.configPeakOutputForward(1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.configPeakOutputReverse(-1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
+
+        return motor;
     }
 
     @Override
@@ -74,47 +71,62 @@ public class BalloonBox extends Subsystem {
         setDefaultCommand(new ManualControl());
     }
 
-    public void intakeRollInside() {
-        intakeRollerMotor.set(ControlMode.PercentOutput, 0.4);
+    public void intakeRoll(double output) {
+        intakeRollerMotor.set(ControlMode.PercentOutput, output);
     }
 
     public void intakeStop() {
         intakeRollerMotor.set(ControlMode.PercentOutput, 0.0);
     }
 
-    public void openLeft() {
-        open(leftSolenoid);
+    public void dropBallonLeft() {
+        if (isRightFlipperClosed()) {
+            open(flipperLeftSolenoid);
+        }
     }
 
-    public void openRight() {
-        open(rightSolenoid);
+    public void dropBallonRight() {
+        if (isLeftFlipperClosed()) {
+            open(flipperRightSolenoid);
+        }
     }
 
-    private void open(Solenoid solenoid) {
-        solenoid.set(SOLENOID_STATE_OPEN);
+    private void open(Solenoid flipperSolenoid) {
+        flipperSolenoid.set(FLIPPER_STATE_OPEN);
     }
 
-    public void closeLeft() {
-        close(leftSolenoid);
+    public void resetFlippers() {
+        resetLeftFlipper();
+        resetRightFlipper();
     }
 
-    public void closeRight() {
-        close(rightSolenoid);
+    public void resetLeftFlipper() {
+        if (isRightFlipperClosed()) {
+            reset(flipperLeftSolenoid);
+        }
     }
 
-    private void close(Solenoid solenoid) {
-        solenoid.set(SOLENOID_STATE_CLOSE);
+    public void resetRightFlipper() {
+        if (isLeftFlipperClosed()) {
+            reset(flipperRightSolenoid);
+        }
+    }
+
+    private void reset(Solenoid flipperSolenoid) {
+        flipperSolenoid.set(FLIPPER_STATE_CLOSE);
     }
 
     public void pivot(double output) {
-        // prohibit speed to be positive if we are at max position already.
         double limitProtectedOutput = output;
+
         if (pivotLimitSwitchHigh.get() == LIMIT_SWITCH_PRESSED_STATE) {
             limitProtectedOutput = Math.min(output, 0.0);
         }
+
         if (pivotLimitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE) {
             limitProtectedOutput = Math.max(output, 0.0);
         }
+
         pivotMotor.set(ControlMode.PercentOutput, limitProtectedOutput);
     }
 
@@ -122,7 +134,26 @@ public class BalloonBox extends Subsystem {
         pivotMotor.set(ControlMode.PercentOutput, 0.0);
     }
 
+    public boolean isLeftFlipperClosed() {
+        return flipperLeftSolenoid.get() == FLIPPER_STATE_CLOSE;
+    }
+
+    public boolean isLeftFlipperOpened() {
+        return flipperLeftSolenoid.get() == FLIPPER_STATE_OPEN;
+    }
+
+    public boolean isRightFlipperClosed() {
+        return flipperRightSolenoid.get() == FLIPPER_STATE_CLOSE;
+    }
+
+    public boolean isRightFlipperOpened() {
+        return flipperRightSolenoid.get() == FLIPPER_STATE_OPEN;
+    }
+
     public void log() {
         SmartDashboard.putNumber("Pivot motor %", pivotMotor.getMotorOutputPercent());
+
+        SmartDashboard.putBoolean("Left flipper", isLeftFlipperClosed());
+        SmartDashboard.putBoolean("Right flipper", isRightFlipperClosed());
     }
 }

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.RobotMap;
 
 public enum XBoxJoystick {
-    DRIVER(RobotMap.JOYSTICK_DRIVER_PORT),
+    DRIVER(RobotMap.JOYSTICK_DRIVER_PORT), 
     HELPER(RobotMap.JOYSTICK_HELPER_PORT);
 
     private static final double DEFAULT_DEADBAND = 0.2;
@@ -108,6 +108,16 @@ public enum XBoxJoystick {
         return joystick.getTriggerAxis(hand);
     }
 
+    public double getTriggerAxes() {
+        return getTriggerAxes(DEFAULT_DEADBAND);
+    }
+
+    public double getTriggerAxes(double deadband) {
+        double triggerAxisLeft = getTriggerAxisRaw(Hand.kLeft);
+        double triggerAxisRight = getTriggerAxisRaw(Hand.kRight);
+        return applyDeadband((triggerAxisLeft + triggerAxisRight), deadband);
+    }
+
     private double applyDeadband(double axisValue, double deadband) {
         double absAxisValue = Math.abs(axisValue);
         if (absAxisValue < deadband) {
@@ -127,5 +137,9 @@ public enum XBoxJoystick {
 
     public boolean getButtonReleased(XBoxButton button) {
         return joystick.getRawButtonReleased(button.getValue());
+    }
+
+    public int getPOV() {
+        return joystick.getPOV();
     }
 }

@@ -3,12 +3,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.StopAll;
-import frc.robot.commands.balloonbox.CloseLeft;
-import frc.robot.commands.balloonbox.CloseRight;
-import frc.robot.commands.balloonbox.IntakeRollInside;
-import frc.robot.commands.balloonbox.OpenLeft;
-import frc.robot.commands.balloonbox.OpenRight;
-import frc.robot.commands.elevator.MoveElevatorToMiddlePosition;
+import frc.robot.commands.balloonbox.DropBalloonLeft;
+import frc.robot.commands.balloonbox.DropBalloonRight;
+import frc.robot.commands.balloonbox.ResetFlippers;
 import frc.robot.joysticks.XBoxJoystick;
 
 public class OI {
@@ -16,23 +13,16 @@ public class OI {
     public OI() {
         initJoystickOfDriver(XBoxJoystick.DRIVER);
         initJoystickOfHelper(XBoxJoystick.HELPER);
-
     }
 
     private void initJoystickOfDriver(XBoxJoystick joystick) {
-		    //joystick.X.whenPressed(new ColorSensorCalibration(true));
-        //joystick.Y.whenPressed(new ColorSensorCalibration(false));
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {
-        joystick.A.whenPressed(new CloseRight());
-        joystick.B.whenPressed(new OpenRight());
-        joystick.X.whenPressed(new CloseLeft());
-        joystick.Y.whenPressed(new OpenLeft());
+        joystick.bumperLeft.whenPressed(new DropBalloonLeft());
+        joystick.bumperRight.whenPressed(new DropBalloonRight());
 
-        joystick.bumperRight.whenPressed(new MoveElevatorToMiddlePosition());
-        joystick.stickRight.whileHeld(new IntakeRollInside());
-
+        joystick.back.whenPressed(new ResetFlippers());
         joystick.start.whenPressed(new StopAll());
     }
 

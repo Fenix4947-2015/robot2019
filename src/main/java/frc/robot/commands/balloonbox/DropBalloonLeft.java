@@ -2,16 +2,24 @@ package frc.robot.commands.balloonbox;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.BalloonBox;
 
-public class IntakeRollInside extends Command {
+public class DropBalloonLeft extends Command {
 
-    public IntakeRollInside() {
+    public DropBalloonLeft() {
         requires(Robot.ballonBox);
+
+        setInterruptible(false);
+        setTimeout(BalloonBox.FLIPPER_TIMEOUT_IN_S);
     }
 
     @Override
     protected void initialize() {
-        Robot.ballonBox.intakeRollInside();
+        if (Robot.ballonBox.isRightFlipperOpened()) {
+            cancel();
+        } else {
+            Robot.ballonBox.dropBallonLeft();
+        }
     }
 
     @Override
@@ -20,16 +28,14 @@ public class IntakeRollInside extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     @Override
     protected void interrupted() {
-        end();
     }
 
     @Override
     protected void end() {
-        Robot.ballonBox.intakeStop();
     }
 }
