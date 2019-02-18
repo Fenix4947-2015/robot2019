@@ -19,10 +19,6 @@ public class OI {
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {
-        joystick.bumperLeft.whenPressed(new DropBalloonLeft());
-        joystick.bumperRight.whenPressed(new DropBalloonRight());
-
-        joystick.back.whenPressed(new ResetFlippers());
         joystick.start.whenPressed(new StopAll());
     }
 

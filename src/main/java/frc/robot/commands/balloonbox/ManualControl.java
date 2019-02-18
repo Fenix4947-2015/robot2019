@@ -7,12 +7,20 @@ import frc.robot.joysticks.XBoxJoystick;
 
 public class ManualControl extends Command {
 
+    private static final int POV_NONE = -1;
+    private static final int POV_RIGHT = 90;
+    private static final int POV_DOWN = 180;
+    private static final int POV_LEFT = 270;
+
+    private int lastPOV;
+
     public ManualControl() {
         requires(Robot.ballonBox);
     }
 
     @Override
     protected void initialize() {
+        lastPOV = XBoxJoystick.HELPER.getPOV();
     }
 
     @Override
@@ -22,6 +30,19 @@ public class ManualControl extends Command {
 
         double y = XBoxJoystick.HELPER.getY(Hand.kLeft);
         Robot.ballonBox.pivot(y);
+
+        int pov = XBoxJoystick.HELPER.getPOV();
+        if (lastPOV == POV_NONE) {
+            if (pov == POV_RIGHT) {
+                new DropBalloonRight().start();
+            } else if (pov == POV_LEFT) {
+                new DropBalloonLeft().start();
+            } else if (pov == POV_DOWN) {
+                new ResetFlippers().start();
+            }
+        }
+
+        lastPOV = pov;
     }
 
     @Override
