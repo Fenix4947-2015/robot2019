@@ -20,7 +20,7 @@ public class ManualControl extends Command {
         double triggers = XBoxJoystick.HELPER.getTriggerAxes(0.2);
         Robot.ballonBox.intakeRoll(triggers);
 
-        double y = XBoxJoystick.HELPER.getY(Hand.kRight);
+        double y = XBoxJoystick.HELPER.getY(Hand.kLeft);
         Robot.ballonBox.pivot(y);
     }
 
