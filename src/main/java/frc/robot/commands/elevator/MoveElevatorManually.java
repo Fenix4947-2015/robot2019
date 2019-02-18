@@ -20,13 +20,7 @@ public class MoveElevatorManually extends Command {
     @Override
     protected void execute() {
         double y = XBoxJoystick.HELPER.getY(Hand.kLeft);
-
-        double yAbs = Math.abs(y);
-        if (yAbs >= 0.1) {
-            Robot.elevator.move(y);
-        } else {
-            Robot.elevator.stop();
-        }
+        Robot.elevator.move(y);
     }
 
     @Override
