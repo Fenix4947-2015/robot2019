@@ -1,23 +1,36 @@
-25000 middle
+﻿25000 middle
 To do list
 -protection sur les ballon box out. (pas les 2 en m�me temps)
     - fross: complété et non testé, les commandes ont été remappés sur la manette du helper (non testé aussi)
     - commandes: D-PAD left=drop left, D-PAD right=drop right, D-PAD down=reset des flippers
 -programmer la routine de transfert de ballon avec l'�l�vateur
+	- FROSS SUR LE CAS
 -programmer la boucle PID d'�l�vateur continue
+	- FROSS SUR LE CAS
 -commande manuelle d'�l�vateur change le setpoint
+	- FROSS SUR LE CAS
 -programmer le shifter
+	-ETIENNE DONE A TESTER
 -programmer la fonction comptes -> hauteur de l'�l�vateur
+	
 -bout de code pour le hatch.
+	
 -elevateur : faire une methode pour chaque target de hauteur. 
+	-FROSS DONE A TESTER
 -int�grer la routine d'alignement
+	- ETIENNE FAIT A TESTER, REQUIERT LES SENSORS
 -mapping des sensors de couleur par terre.
+	- 
 -cablage pour les sensors de couleur (6 en parallele)
+	- DONE JPC
 -capteur de ballon � l'int�rieur.
 -mapping de boutons.
 -pivot : changer les vitesses de mont�e pour protection. 
+	- JPC FAIT A TESTER
 -PID de pivot
+	- JPC FAIT A TESTER
 -trouver les positions de pivot (ramassage au sol)
 - zeroing de pivot. 
 -protection position maximale d'�l�vateur. 
+	- fross en cours
 
