@@ -35,12 +35,12 @@ public class RobotMap {
     public static final int HATCH_GRABBER_SOLENOID_ADDRESS = 2;
 
     // Color sensors.
-    public static final int COLOR_SENSOR_MIDDLE_LEFT_ADDRESS = 0x10;
-    public static final int COLOR_SENSOR_REAR_LEFT_ADDRESS = 0x14;
-    public static final int COLOR_SENSOR_FRONT_LEFT_ADDRESS = 0x0;
-    public static final int COLOR_SENSOR_MIDDLE_RIGHT_ADDRESS = 0x0;
-    public static final int COLOR_SENSOR_REAR_RIGHT_ADDRESS = 0x0;
-    public static final int COLOR_SENSOR_FRONT_RIGHT_ADDRESS = 0x0;
+    public static final int COLOR_SENSOR_MIDDLE_LEFT_ADDRESS = 0x12;
+    public static final int COLOR_SENSOR_REAR_LEFT_ADDRESS = 0x10;
+    public static final int COLOR_SENSOR_FRONT_LEFT_ADDRESS = 0x18;
+    public static final int COLOR_SENSOR_MIDDLE_RIGHT_ADDRESS = 0x16;
+    public static final int COLOR_SENSOR_REAR_RIGHT_ADDRESS = 0x20;
+    public static final int COLOR_SENSOR_FRONT_RIGHT_ADDRESS = 0x14;
 
     public static void init() {
         SmartDashboard.putData(Scheduler.getInstance());
