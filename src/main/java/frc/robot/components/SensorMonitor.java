@@ -70,7 +70,11 @@ public class SensorMonitor {
 
   public void stopMonitoring() {
     if (monitoring) {
-      timer.cancel();
+      try {
+        timer.cancel();
+      } catch (IllegalStateException e) {
+        System.out.println("SensorMonitor.stopMonitoring(): timer already cancelled");
+      }
     }
     monitoring = false;
   }

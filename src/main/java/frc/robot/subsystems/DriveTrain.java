@@ -39,6 +39,18 @@ public class DriveTrain extends Subsystem {
 
   public Pigeon pigeon = new Pigeon();
 
+  public enum FrontSide {
+    INTAKE(1.0), PANEL_GRIPPER(-1.0);
+    
+    public final double direction;
+    
+    private FrontSide(double direction) {
+      this.direction = direction;
+    }
+  }
+  
+  public FrontSide frontside = FrontSide.INTAKE;
+
   public DriveTrain() {
     // Initialize drivetrain motors
     setMotorsAllowablePower(leftMotor1);
@@ -68,25 +80,33 @@ public class DriveTrain extends Subsystem {
     setDefaultCommand(new DriveArcade());
   }
 
-  public void driveArcadeMethod(double Speed, double Rotation) {
+  public void driveArcadeMethod(double speed, double rotation) {
 
     double rotationValueGain = 1.0; // for full rotation speed, use 1. Tune to have smoother rotation.
-    Rotation = Rotation * rotationValueGain;
+    rotation = rotation * rotationValueGain;
 
-    double GoStraightCompensation = 0;
-    if (Math.abs(Speed) > 0.1) {
+    double goStraightCompensation = 0;
+    if (Math.abs(speed) > 0.1) {
       // TODO Tune the constant values. Has a speed proportional component (friction
       // in mechanism() and a fixed component
-      GoStraightCompensation = Speed * DriveTrainConstants.GO_STRAIGHT_COMPENSATION_DYNAMIC
-          + DriveTrainConstants.GO_STRAIGHT_COMPENSATION_STATIC * Math.signum(Speed);
+      goStraightCompensation = frontside.direction * speed * DriveTrainConstants.GO_STRAIGHT_COMPENSATION_DYNAMIC
+          + DriveTrainConstants.GO_STRAIGHT_COMPENSATION_STATIC * Math.signum(speed);
     }
 
-    robotDrive.arcadeDrive(Speed, Rotation + GoStraightCompensation);
+    robotDrive.arcadeDrive(speed, rotation + goStraightCompensation);
   }
 
   public void shift(Gear gear) {
     shifter.set(gear.solenoidState);
     SmartDashboard.putString("Drivetrain gear", gear.toString());
+  }
+
+  public void setFrontToIntake() {
+    frontside = FrontSide.INTAKE;
+  }
+
+  public void setFrontToPanelGripper() {
+    frontside = FrontSide.PANEL_GRIPPER;
   }
 
   public class Pigeon {
