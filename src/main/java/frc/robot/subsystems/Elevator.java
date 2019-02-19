@@ -19,7 +19,10 @@ public class Elevator extends Subsystem {
 
     private static final boolean LIMIT_SWITCH_PRESSED_STATE = false;
 
-    public static final int POSITION_MIDDLE_IN_COUNTS = 15000;
+    public static final int POSITION_ROCKET_LEVEL_1 =  5000;
+    public static final int POSITION_ROCKET_LEVEL_2 = 10000;
+    public static final int POSITION_ROCKET_LEVEL_3 = 15000;
+
     public static final int POSITION_TOP_OF_BOX = 10000;
     public static final int POSITION_GROUND = 0;
     
@@ -139,12 +142,6 @@ public class Elevator extends Subsystem {
 
     public void moveToLow() {
         motor.set(ControlMode.PercentOutput, -MOVE_OUTPUT);
-    }
-
-    public void moveToMiddle() {
-        //POSITION_MIDDLE_IN_COUNTS
-        motor.set(ControlMode.MotionMagic, POSITION_MIDDLE_IN_COUNTS, DemandType.ArbitraryFeedForward, FEED_FORWARD);
-        // motor.set(ControlMode.Position, POSITION_MIDDLE_IN_COUNTS);
     }
 
     public void moveTo(int encoderCount) {

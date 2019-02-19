@@ -6,7 +6,9 @@ import frc.robot.commands.StopAll;
 import frc.robot.commands.balloonbox.IntakeInPosition;
 import frc.robot.commands.balloonbox.IntakeOutPosition;
 import frc.robot.commands.elevator.LoadBalloonIntoBox;
+import frc.robot.commands.elevator.MoveElevatorToRocketLevel;
 import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.subsystems.Elevator;
 
 public class OI {
 
@@ -21,7 +23,11 @@ public class OI {
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {
-        joystick.X.whenPressed(new LoadBalloonIntoBox());
+        joystick.X.whenPressed(new MoveElevatorToRocketLevel(Elevator.POSITION_ROCKET_LEVEL_1));
+        joystick.Y.whenPressed(new MoveElevatorToRocketLevel(Elevator.POSITION_ROCKET_LEVEL_2));
+        joystick.B.whenPressed(new MoveElevatorToRocketLevel(Elevator.POSITION_ROCKET_LEVEL_3));
+
+        joystick.A.whenPressed(new LoadBalloonIntoBox());
 
         joystick.start.whenPressed(new StopAll());
     }
