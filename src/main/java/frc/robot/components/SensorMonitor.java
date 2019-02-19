@@ -15,9 +15,8 @@ import frc.robot.RobotMap;
 public class SensorMonitor {
   private static final long TASK_PERIOD_MS = 5; // 200hz -> 5ms period
 
-  private final Timer timer = new Timer("SensorMonitor Timer task", true);
+  private Timer timer;
   private final TimerTask task;
-  private boolean monitoring = false;
 
   private final Set<SensorMonitor.SensorPos> linesDetected = Collections.synchronizedSet(new HashSet<>());
   private final Map<SensorMonitor.SensorPos, ColorSensor> sensors;
@@ -64,19 +63,15 @@ public class SensorMonitor {
   }
 
   public void startMonitoring() {
+    timer = new Timer("SensorMonitor Timer task", true);
     timer.scheduleAtFixedRate(task, TASK_PERIOD_MS, TASK_PERIOD_MS);
-    monitoring = true;
   }
 
   public void stopMonitoring() {
-    if (monitoring) {
-      try {
-        timer.cancel();
-      } catch (IllegalStateException e) {
-        System.out.println("SensorMonitor.stopMonitoring(): timer already cancelled");
-      }
+    if (timer != null) {
+      timer.cancel();
+      timer = null;
     }
-    monitoring = false;
   }
 
   public boolean isLineDetected(SensorMonitor.SensorPos sensor) {
