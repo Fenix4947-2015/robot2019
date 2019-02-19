@@ -190,6 +190,19 @@ public class BalloonBox extends Subsystem {
         return flipperRightSolenoid.get() == FLIPPER_STATE_OPEN;
     }
 
+    public void periodicLogic()
+    {
+        // Protect min and max limit switches
+        if(pivotLimitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE)
+        {
+            pivotStop();            
+        }
+        if(pivotLimitSwitchHigh.get() == LIMIT_SWITCH_PRESSED_STATE)
+        {
+            pivotStop();
+        }
+    }
+
     public void log() {
         SmartDashboard.putNumber("Pivot motor %", pivotMotor.getMotorOutputPercent());
 
