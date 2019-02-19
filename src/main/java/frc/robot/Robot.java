@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
         RobotMap.init();
 
         oi = new OI();
-        
+
         sensorMonitor = new SensorMonitor();
     }
 

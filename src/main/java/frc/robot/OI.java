@@ -7,6 +7,8 @@ import frc.robot.commands.balloonbox.IntakeInPosition;
 import frc.robot.commands.balloonbox.IntakeOutPosition;
 import frc.robot.commands.elevator.LoadBalloonIntoBox;
 import frc.robot.commands.elevator.MoveElevatorToRocketLevel;
+import frc.robot.commands.drivetrain.SetFrontToIntake;
+import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.Elevator;
 
@@ -20,6 +22,8 @@ public class OI {
     private void initJoystickOfDriver(XBoxJoystick joystick) {
         joystick.X.whenPressed(new IntakeOutPosition());
         joystick.A.whenPressed(new IntakeInPosition());
+        joystick.bumperRight.whenPressed(new SetFrontToIntake());
+    		joystick.bumperLeft.whenPressed(new SetFrontToPanelGripper());
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {
