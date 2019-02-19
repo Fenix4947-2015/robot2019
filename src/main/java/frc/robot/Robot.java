@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
     public static OI oi;
 
 	  // Components / Sensors
-	  public static SensorMonitor sensorMonitor;
+	  //public static SensorMonitor sensorMonitor;
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
 
         oi = new OI();
 
-        sensorMonitor = new SensorMonitor();
+       // sensorMonitor = new SensorMonitor();
     }
 
     /**
@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-    		sensorMonitor.startMonitoring();
+    	//	sensorMonitor.startMonitoring();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-    		sensorMonitor.startMonitoring();
+    	//	sensorMonitor.startMonitoring();
     }
 
     @Override
@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
     
     @Override
   	public void disabledInit() {
-    		sensorMonitor.stopMonitoring();
+    		//sensorMonitor.stopMonitoring();
     		System.out.println("Robot disabled");
   	}
 }

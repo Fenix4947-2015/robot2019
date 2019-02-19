@@ -40,6 +40,16 @@ public class DriveArcade extends Command {
   protected void execute() {
     final boolean lockOnLineMode = XBoxJoystick.DRIVER.getButton(XBoxButton.B);
 
+    final boolean lineHitRearLeft = false;
+    final boolean lineHitRearRight = false;
+
+    final boolean lineHitFrontLeft = false;
+    final boolean lineHitFrontRight = false;
+
+    final boolean lineHitMiddleLeft = false;
+    final boolean lineHitMiddleRight = false;
+
+    /*
     final boolean lineHitRearLeft = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.REAR_LEFT);
     final boolean lineHitRearRight = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.REAR_RIGHT);
 
@@ -48,6 +58,7 @@ public class DriveArcade extends Command {
 
     final boolean lineHitMiddleLeft = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_LEFT);
     final boolean lineHitMiddleRight = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_RIGHT);
+    */
 
     double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
     double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);

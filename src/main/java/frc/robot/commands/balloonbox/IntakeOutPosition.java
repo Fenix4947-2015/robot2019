@@ -18,7 +18,7 @@ public class IntakeOutPosition extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.ballonBox.pivotToPosition(15.0);
+    Robot.ballonBox.pivotOutPosition();
   }
 
   // Called repeatedly when this Command is scheduled to run

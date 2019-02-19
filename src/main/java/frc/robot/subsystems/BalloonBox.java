@@ -18,18 +18,18 @@ public class BalloonBox extends Subsystem {
 
     private static final int MOTOR_CONFIG_TIMEOUT_IN_MS = 30;
     private static final int PID_LOOP_ID = 0;
-    private static final double TOP_VELOCITY = 1500.0;
+    private static final double TOP_VELOCITY = 2500.0;
     private static final int    PID_LOOP = 0;
     private static final int    PID_SLOT = 0;
     private static final int    PID_ALLOWABLE_CLOSED_LOOP_ERROR_IN_COUNTS = 0;
     private static final double PID_P = 0.05;
     private static final double PID_I = 0.0;
     private static final double PID_D = 0.0;
-    private static final double PID_F = (0.5 * 1023) / TOP_VELOCITY;  
+    private static final double PID_F = (0.75 * 1023) / TOP_VELOCITY;  
 
     private static final int ACCELERATION = (int) (TOP_VELOCITY / 2.0);
     private static final int CRUISE_VELOCITY = (int) (TOP_VELOCITY / 2.0);
-    private static final double FEED_FORWARD = 0.03;
+    private static final double FEED_FORWARD = 0.0;
 
     private static final boolean LIMIT_SWITCH_PRESSED_STATE = false;
     private static final boolean LIMIT_SWITCH_RELEASED_STATE = !LIMIT_SWITCH_PRESSED_STATE;
@@ -170,6 +170,16 @@ public class BalloonBox extends Subsystem {
         pivotMotor.set(ControlMode.MotionMagic, encoderCountsAtPosition, DemandType.ArbitraryFeedForward, FEED_FORWARD);
     }
 
+    public void pivotInPosition()
+    {
+        pivotMotor.set(ControlMode.MotionMagic, -126.0, DemandType.ArbitraryFeedForward, FEED_FORWARD);
+    }
+
+    public void pivotOutPosition()
+    {
+        pivotMotor.set(ControlMode.MotionMagic, 696.0, DemandType.ArbitraryFeedForward, FEED_FORWARD);
+    }
+
     public void pivotStop() {
         pivotMotor.set(ControlMode.PercentOutput, 0.0);
     }
@@ -204,8 +214,8 @@ public class BalloonBox extends Subsystem {
     }
 
     public void log() {
-        SmartDashboard.putNumber("Pivot motor %", pivotMotor.getMotorOutputPercent());
-
+        SmartDashboard.putNumber("Pivot motor count", pivotMotor.getSelectedSensorPosition());
+        
         SmartDashboard.putBoolean("Left flipper", isLeftFlipperClosed());
         SmartDashboard.putBoolean("Right flipper", isRightFlipperClosed());
     }

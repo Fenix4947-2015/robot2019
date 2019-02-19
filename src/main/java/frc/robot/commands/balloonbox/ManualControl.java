@@ -2,7 +2,6 @@ package frc.robot.commands.balloonbox;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.Robot;
 import frc.robot.joysticks.XBoxJoystick;
 
@@ -29,10 +28,10 @@ public class ManualControl extends Command {
         
 
         // Pivot controls
-        double y = XBoxJoystick.HELPER.getY(Hand.kLeft);        
+        double y = XBoxJoystick.DRIVER.getY(Hand.kRight);        
         if(y > 0.0){
             // limit outwards pivot speed
-            y = y * 0.4;
+            y = y * 0.25;
         }        
         Robot.ballonBox.pivot(y);
 
@@ -40,11 +39,11 @@ public class ManualControl extends Command {
         int pov = XBoxJoystick.HELPER.getPOV();
         if (lastPOV == POV_NONE) {
             if (pov == POV_RIGHT) {
-                Scheduler.getInstance().add(new DropBalloonRight());
+                Robot.ballonBox.dropBallonLeft();
             } else if (pov == POV_LEFT) {
-                Scheduler.getInstance().add(new DropBalloonLeft());
+                Robot.ballonBox.dropBallonRight();
             } else if (pov == POV_DOWN) {
-                Scheduler.getInstance().add(new ResetFlippers());
+                Robot.ballonBox.resetFlippers();
             }
         }
 

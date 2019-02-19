@@ -22,10 +22,10 @@ public class ColorSensorCalibration extends Command {
     SensorPos pos = SensorPos.MIDDLE_LEFT;
     if (isWhiteCal) {
       System.out.println("White cal");
-      Robot.sensorMonitor.getColorSensor(pos).whiteCalibration();
+      //Robot.sensorMonitor.getColorSensor(pos).whiteCalibration();
     } else {
       System.out.println("Black cal");
-      Robot.sensorMonitor.getColorSensor(pos).blackCalibration();
+      //Robot.sensorMonitor.getColorSensor(pos).blackCalibration();
     }
     finished = true;
   }

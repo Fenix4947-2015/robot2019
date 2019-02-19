@@ -18,7 +18,7 @@ public class IntakeInPosition extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.ballonBox.pivotToPosition(-5.0);
+    Robot.ballonBox.pivotInPosition();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -30,13 +30,13 @@ public class IntakeInPosition extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.ballonBox.intakeStop();
+    //Robot.ballonBox.intakeStop();
   }
 
   // Called when another command which requires one or more of the same

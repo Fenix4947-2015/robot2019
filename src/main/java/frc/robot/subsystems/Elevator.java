@@ -23,10 +23,10 @@ public class Elevator extends Subsystem {
     public static final int POSITION_ROCKET_LEVEL_2 = 10000;
     public static final int POSITION_ROCKET_LEVEL_3 = 15000;
 
-    public static final int POSITION_TOP_OF_BOX = 10000;
+    public static final int POSITION_TOP_OF_BOX = 15000;
     public static final int POSITION_GROUND = 0;
 
-    private static final int POSITION_TOLERANCE = 100;
+    private static final int POSITION_TOLERANCE = 400;
     private static final int VARIATION_OF_COUNTS_IN_MANUAL = 100;
 
     // TOP COUNT = 0;
@@ -35,7 +35,7 @@ public class Elevator extends Subsystem {
 
     // top VELOCITY: 1000
 
-    private static final double TOP_VELOCITY = 1000.0;
+    private static final double TOP_VELOCITY = 2000.0;
 
     private static final double MOVE_OUTPUT = 0.25;
     private static final int MOTOR_CONFIG_TIMEOUT_IN_MS = 30;
@@ -44,14 +44,14 @@ public class Elevator extends Subsystem {
     private static final int PID_LOOP = 0;
     private static final int PID_SLOT = 0;
     private static final int PID_ALLOWABLE_CLOSED_LOOP_ERROR_IN_COUNTS = 0;
-    private static final double PID_P = 0.05;
+    private static final double PID_P = 0.15;
     private static final double PID_I = 0.0;
     private static final double PID_D = 0.0;
     private static final double PID_F = (0.5 * 1023) / TOP_VELOCITY;
 
     private static final int ACCELERATION = (int) (TOP_VELOCITY / 2.0);
     private static final int CRUISE_VELOCITY = (int) (TOP_VELOCITY / 2.0);
-    private static final double FEED_FORWARD = 0.16;
+    private static final double FEED_FORWARD = 0.25;
 
     private WPI_TalonSRX motor;
     private DigitalInput limitSwitchLow;
@@ -130,6 +130,8 @@ public class Elevator extends Subsystem {
             zero();
         }
 
+        SmartDashboard.putNumber("Elevator motor output", limitProtectedOutput);
+
         motor.set(ControlMode.PercentOutput, limitProtectedOutput);
     }
 
@@ -164,7 +166,7 @@ public class Elevator extends Subsystem {
     }
 
     public void moveToLow() {
-        motor.set(ControlMode.PercentOutput, -MOVE_OUTPUT);
+        motor.set(ControlMode.PercentOutput, -0.75);
     }
 
     public void moveTo(int encoderCount) {
