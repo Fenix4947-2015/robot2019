@@ -1,21 +1,20 @@
 package frc.robot.commands.elevator;
 
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class MoveElevatorToTopOfBox2 extends TimedCommand {
-
-    public MoveElevatorToTopOfBox2() {
-        super(1.7);
-
+public class MoveElevatorToLow extends Command {
+    
+    public MoveElevatorToLow() {
         requires(Robot.elevator);
 
         setInterruptible(true);
+        setTimeout(5.0);
     }
 
     @Override
     protected void initialize() {
-        Robot.elevator.move(0.8);
+        Robot.elevator.move(-0.3);
     }
 
     @Override
@@ -24,16 +23,14 @@ public class MoveElevatorToTopOfBox2 extends TimedCommand {
 
     @Override
     protected boolean isFinished() {
-        return isTimedOut();
+        return Robot.elevator.isLow() || isTimedOut();
     }
 
     @Override
     protected void interrupted() {
-        end();
     }
 
     @Override
     protected void end() {
-        Robot.elevator.stop();
     }
 }

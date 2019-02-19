@@ -150,6 +150,10 @@ public class BalloonBox extends Subsystem {
         flipperSolenoid.set(FLIPPER_STATE_CLOSE);
     }
 
+    public void zeroPivot() {
+        pivotMotor.setSelectedSensorPosition(0, PID_LOOP_ID, MOTOR_CONFIG_TIMEOUT_IN_MS);
+    }
+
     public void pivot(double output) {
         double limitProtectedOutput = output;
 
@@ -216,14 +220,9 @@ public boolean isPivotLow()
 
     public void periodicLogic()
     {
-        // Protect min and max limit switches
-        if(pivotLimitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE)
+        if(isPivotLow())
         {
-            pivotStop();            
-        }
-        if(pivotLimitSwitchHigh.get() == LIMIT_SWITCH_PRESSED_STATE)
-        {
-            pivotStop();
+            zeroPivot();
         }
     }
 

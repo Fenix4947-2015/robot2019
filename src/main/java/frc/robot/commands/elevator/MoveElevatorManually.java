@@ -7,10 +7,6 @@ import frc.robot.joysticks.XBoxJoystick;
 
 public class MoveElevatorManually extends Command {
 
-    private static final double DEADBAND = 0.5;
-
-    private double lastYLeft;
-
     public MoveElevatorManually() {
         requires(Robot.elevator);
 
@@ -19,24 +15,18 @@ public class MoveElevatorManually extends Command {
 
     @Override
     protected void initialize() {
-        lastYLeft = XBoxJoystick.HELPER.getY(Hand.kLeft, DEADBAND);
     }
 
     @Override
     protected void execute() {
-        double yRight = XBoxJoystick.HELPER.getY(Hand.kRight);
-        Robot.elevator.move(yRight);
+        double ySquaredRight = XBoxJoystick.HELPER.getY(Hand.kRight);
 
-        double yLeft = XBoxJoystick.HELPER.getY(Hand.kLeft, DEADBAND);
-        if (lastYLeft == 0.0) {
-            if (yLeft >= DEADBAND) {
-                Robot.elevator.increaseCount();
-            } else if (yLeft <= -DEADBAND) {
-                Robot.elevator.decreaseCount();
-            }
+        double ySquaredRightAbs = Math.abs(ySquaredRight);
+        if (ySquaredRightAbs >= 0.2) {
+            Robot.elevator.move(ySquaredRight);
+        } else {
+            Robot.elevator.stop();
         }
-
-        lastYLeft = yLeft;
     }
 
     @Override

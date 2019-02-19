@@ -2,7 +2,6 @@ package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Elevator;
 
 public class MoveElevatorToTopOfBox extends Command {
 
@@ -10,12 +9,12 @@ public class MoveElevatorToTopOfBox extends Command {
         requires(Robot.elevator);
 
         setInterruptible(true);
-        setTimeout(Elevator.COMMAND_TIMEOUT_IN_SECONDS);
+        setTimeout(1.7);
     }
 
     @Override
     protected void initialize() {
-        Robot.elevator.moveTo(Elevator.POSITION_TOP_OF_BOX);
+        Robot.elevator.move(0.9);
     }
 
     @Override
@@ -24,14 +23,16 @@ public class MoveElevatorToTopOfBox extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.elevator.isNear(Elevator.POSITION_TOP_OF_BOX) || isTimedOut();
+        return isTimedOut();
     }
 
     @Override
     protected void interrupted() {
+        end();
     }
 
     @Override
     protected void end() {
+        Robot.elevator.stop();
     }
 }

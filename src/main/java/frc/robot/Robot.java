@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-        elevator.periodicLogic();
+        elevator.zero();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        elevator.periodicLogic();
+        elevator.zero();
         ballonBox.periodicLogic();
     }
 
