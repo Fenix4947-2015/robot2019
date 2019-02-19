@@ -171,7 +171,7 @@ public class DriveArcade extends Command {
       break;
     }
 
-    Robot.driveTrain.driveArcadeMethod(-moveValue, rotateValue);
+    Robot.driveTrain.driveArcadeMethod(moveValue, rotateValue);
 
     // Example of how to use the Pigeon IMU
 
