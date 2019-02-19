@@ -4,14 +4,28 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.drivetrain.DriveArcade;
 
 public class DriveTrain extends Subsystem {
 
   private static final double PEAK_OUTPUT = 0.5;
+
+  public static final double SHIFTER_SOLENOID_TIMEOUT_S = 1.0;
+
+  public enum Gear {
+    LOW(false), HIGH(true);
+
+    private final boolean solenoidState;
+
+    private Gear(boolean solenoidState) {
+      this.solenoidState = solenoidState;
+    }
+  }
 
   private WPI_TalonSRX leftMotor1 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR1_ADDRESS); // encoder
   private WPI_TalonSRX leftMotor2 = new WPI_TalonSRX(RobotMap.LEFT_MOTOR2_ADDRESS);
@@ -20,6 +34,8 @@ public class DriveTrain extends Subsystem {
   private WPI_TalonSRX rightMotor2 = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR2_ADDRESS);
 
   private DifferentialDrive robotDrive = new DifferentialDrive(leftMotor1, rightMotor1);
+
+  private Solenoid shifter = new Solenoid(RobotMap.SHIFTER_SOLENOID_ADDRESS);
 
   public Pigeon pigeon = new Pigeon();
 
@@ -66,6 +82,11 @@ public class DriveTrain extends Subsystem {
     }
 
     robotDrive.arcadeDrive(Speed, Rotation + GoStraightCompensation);
+  }
+
+  public void shift(Gear gear) {
+    shifter.set(gear.solenoidState);
+    SmartDashboard.putString("Drivetrain gear", gear.toString());
   }
 
   public class Pigeon {

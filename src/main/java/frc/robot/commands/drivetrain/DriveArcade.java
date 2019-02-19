@@ -13,10 +13,13 @@ import frc.robot.Robot;
 import frc.robot.components.SensorMonitor.SensorPos;
 import frc.robot.joysticks.XBoxButton;
 import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.subsystems.DriveTrain.Gear;
 
 public class DriveArcade extends Command {
 
   private MoveMode moveMode = MoveMode.MANUAL;
+
+  private int lastDpadValue = -1;
 
   public DriveArcade() {
     requires(Robot.driveTrain);
@@ -46,10 +49,22 @@ public class DriveArcade extends Command {
     final boolean lineHitMiddleLeft = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_LEFT);
     final boolean lineHitMiddleRight = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_RIGHT);
 
-    double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
-    double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
+    double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
+    double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
     double moveValue = movePosValue - moveNegValue;
     double rotateValue = XBoxJoystick.DRIVER.getX(Hand.kLeft, 0.05);
+
+    int currentDpadValue = XBoxJoystick.DRIVER.getPOV();
+    if (currentDpadValue != lastDpadValue) {
+      lastDpadValue = currentDpadValue;
+      if (currentDpadValue == 0) {
+        // up
+        Robot.driveTrain.shift(Gear.HIGH);
+      } else if (currentDpadValue == 180) {
+        // down
+        Robot.driveTrain.shift(Gear.LOW);
+      }
+    }
 
     // System.out.println("Move value: " + moveValue);
     // System.out.println("Rotate value: " + rotateValue);
