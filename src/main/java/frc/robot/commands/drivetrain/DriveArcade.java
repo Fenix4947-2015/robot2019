@@ -49,8 +49,8 @@ public class DriveArcade extends Command {
     final boolean lineHitMiddleLeft = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_LEFT);
     final boolean lineHitMiddleRight = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_RIGHT);
 
-    double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
-    double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
+    double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
+    double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
     double moveValue = movePosValue - moveNegValue;
     double rotateValue = XBoxJoystick.DRIVER.getX(Hand.kLeft, 0.05);
     
