@@ -31,6 +31,9 @@ public class RobotMap {
     public static final int ELEVATOR_LIMIT_SWITCH_LOW = 0;
     public static final int ELEVATOR_LIMIT_SWITCH_HIGH = 1;
 
+    // Hatch grabber.
+    public static final int HATCH_GRABBER_SOLENOID_ADDRESS = 2;
+
     // Color sensors.
     public static final int COLOR_SENSOR_MIDDLE_LEFT_ADDRESS = 0x10;
     public static final int COLOR_SENSOR_REAR_LEFT_ADDRESS = 0x14;

@@ -5,10 +5,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.StopAll;
 import frc.robot.commands.balloonbox.IntakeInPosition;
 import frc.robot.commands.balloonbox.IntakeOutPosition;
-import frc.robot.commands.elevator.LoadBalloonIntoBox;
-import frc.robot.commands.elevator.MoveElevatorToRocketLevel;
 import frc.robot.commands.drivetrain.SetFrontToIntake;
 import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
+import frc.robot.commands.elevator.LoadBalloonIntoBox;
+import frc.robot.commands.elevator.MoveElevatorToRocketLevel;
+import frc.robot.commands.hatchgrabber.DeployHatch;
+import frc.robot.commands.hatchgrabber.RetractHatch;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.Elevator;
 
@@ -33,6 +35,9 @@ public class OI {
         joystick.B.whenPressed(new MoveElevatorToRocketLevel(Elevator.POSITION_ROCKET_LEVEL_3));
 
         joystick.A.whenPressed(new LoadBalloonIntoBox());
+
+        joystick.bumperLeft.whenPressed(new RetractHatch());
+        joystick.bumperRight.whenPressed(new DeployHatch());
 
         joystick.start.whenPressed(new StopAll());
     }

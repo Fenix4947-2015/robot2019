@@ -2,10 +2,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.components.SensorMonitor;
 import frc.robot.subsystems.BalloonBox;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.HatchGrabber;
 import frc.robot.subsystems.RobotUtilities;
 
 /**
@@ -19,6 +19,7 @@ public class Robot extends TimedRobot {
     // Subsystems.
     public static BalloonBox ballonBox;
     public static Elevator elevator;
+    public static HatchGrabber hatchGrabber;
     public static RobotUtilities utilities;
     public static DriveTrain driveTrain;
 
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         ballonBox = new BalloonBox();
         elevator = new Elevator();
+        hatchGrabber = new HatchGrabber();
         utilities = new RobotUtilities();
         driveTrain = new DriveTrain();
 
