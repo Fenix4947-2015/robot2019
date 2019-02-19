@@ -19,7 +19,10 @@ public class Elevator extends Subsystem {
 
     private static final boolean LIMIT_SWITCH_PRESSED_STATE = false;
 
-    private static final int POSITION_MIDDLE_IN_COUNTS = 15000;
+    public static final int POSITION_MIDDLE_IN_COUNTS = 15000;
+    public static final int POSITION_TOP_OF_BOX = 10000;
+    public static final int POSITION_GROUND = 0;
+    
     private static final int POSITION_TOLERANCE = 100;
 
     // TOP COUNT = 0;
@@ -144,6 +147,10 @@ public class Elevator extends Subsystem {
         // motor.set(ControlMode.Position, POSITION_MIDDLE_IN_COUNTS);
     }
 
+    public void moveTo(int encoderCount) {
+        motor.set(ControlMode.MotionMagic, encoderCount, DemandType.ArbitraryFeedForward, FEED_FORWARD);
+    }
+
     public void moveToHigh() {
         motor.set(ControlMode.PercentOutput, MOVE_OUTPUT);
     }
@@ -172,9 +179,9 @@ public class Elevator extends Subsystem {
         return limitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE;
     }
 
-    public boolean isMiddle() {
+    public boolean isNear(int encoderCount) {
         int encoderPosition = motor.getSelectedSensorPosition();
-        int error = Math.abs(POSITION_MIDDLE_IN_COUNTS - encoderPosition);
+        int error = Math.abs(encoderCount - encoderPosition);
 
         SmartDashboard.putNumber("Elevator error", error);
 

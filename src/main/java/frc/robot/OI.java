@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.StopAll;
 import frc.robot.commands.balloonbox.IntakeInPosition;
 import frc.robot.commands.balloonbox.IntakeOutPosition;
+import frc.robot.commands.elevator.LoadBalloonIntoBox;
 import frc.robot.joysticks.XBoxJoystick;
 
 public class OI {
@@ -20,6 +21,8 @@ public class OI {
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {
+        joystick.X.whenPressed(new LoadBalloonIntoBox());
+
         joystick.start.whenPressed(new StopAll());
     }
 
