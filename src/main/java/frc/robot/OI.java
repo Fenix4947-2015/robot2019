@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.StopAll;
+import frc.robot.commands.balloonbox.IntakeInPosition;
+import frc.robot.commands.balloonbox.IntakeOutPosition;
 import frc.robot.joysticks.XBoxJoystick;
 
 public class OI {
@@ -13,6 +15,8 @@ public class OI {
     }
 
     private void initJoystickOfDriver(XBoxJoystick joystick) {
+        joystick.X.whenPressed(new IntakeOutPosition());
+        joystick.A.whenPressed(new IntakeInPosition());
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {

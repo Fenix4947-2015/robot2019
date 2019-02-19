@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -16,6 +17,19 @@ public class BalloonBox extends Subsystem {
     public static final double FLIPPER_TIMEOUT_IN_S = 1.0;
 
     private static final int MOTOR_CONFIG_TIMEOUT_IN_MS = 30;
+    private static final int PID_LOOP_ID = 0;
+    private static final double TOP_VELOCITY = 1500.0;
+    private static final int    PID_LOOP = 0;
+    private static final int    PID_SLOT = 0;
+    private static final int    PID_ALLOWABLE_CLOSED_LOOP_ERROR_IN_COUNTS = 0;
+    private static final double PID_P = 0.05;
+    private static final double PID_I = 0.0;
+    private static final double PID_D = 0.0;
+    private static final double PID_F = (0.5 * 1023) / TOP_VELOCITY;  
+
+    private static final int ACCELERATION = (int) (TOP_VELOCITY / 2.0);
+    private static final int CRUISE_VELOCITY = (int) (TOP_VELOCITY / 2.0);
+    private static final double FEED_FORWARD = 0.03;
 
     private static final boolean LIMIT_SWITCH_PRESSED_STATE = false;
     private static final boolean LIMIT_SWITCH_RELEASED_STATE = !LIMIT_SWITCH_PRESSED_STATE;
@@ -63,6 +77,21 @@ public class BalloonBox extends Subsystem {
         motor.configPeakOutputForward(1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
         motor.configPeakOutputReverse(-1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
 
+                // Config the allowable closed-loop error.
+        // Closed-Loop output will be neutral within this range.
+        // See Table in Section 17.2.1 for native units per rotation.
+        motor.configAllowableClosedloopError(PID_SLOT, PID_ALLOWABLE_CLOSED_LOOP_ERROR_IN_COUNTS, MOTOR_CONFIG_TIMEOUT_IN_MS);
+
+        // Config position closed-loop gains in slot.
+        // Typically kF stays zero.
+        motor.config_kP(PID_SLOT, PID_P, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.config_kI(PID_SLOT, PID_I, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.config_kD(PID_SLOT, PID_D, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.config_kF(PID_SLOT, PID_F, MOTOR_CONFIG_TIMEOUT_IN_MS);
+
+        motor.configMotionAcceleration(ACCELERATION, MOTOR_CONFIG_TIMEOUT_IN_MS);
+		motor.configMotionCruiseVelocity(CRUISE_VELOCITY, MOTOR_CONFIG_TIMEOUT_IN_MS);
+
         return motor;
     }
 
@@ -73,6 +102,11 @@ public class BalloonBox extends Subsystem {
 
     public void intakeRoll(double output) {
         intakeRollerMotor.set(ControlMode.PercentOutput, output);
+    }
+
+    public void intakeRollInside()
+    {
+      intakeRollerMotor.set(ControlMode.PercentOutput,0.4);
     }
 
     public void intakeStop() {
@@ -128,6 +162,12 @@ public class BalloonBox extends Subsystem {
         }
 
         pivotMotor.set(ControlMode.PercentOutput, limitProtectedOutput);
+    }
+
+    public void pivotToPosition(double angleFromBottomDegrees)
+    {
+        double encoderCountsAtPosition = angleFromBottomDegrees * 4200.0 / 180.0; 
+        pivotMotor.set(ControlMode.MotionMagic, encoderCountsAtPosition, DemandType.ArbitraryFeedForward, FEED_FORWARD);
     }
 
     public void pivotStop() {

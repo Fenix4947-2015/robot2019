@@ -26,12 +26,17 @@ public class ManualControl extends Command {
 
     @Override
     protected void execute() {
-        double triggers = XBoxJoystick.HELPER.getTriggerAxes(0.2);
-        Robot.ballonBox.intakeRoll(triggers);
+        
 
-        double y = XBoxJoystick.HELPER.getY(Hand.kLeft);
+        // Pivot controls
+        double y = XBoxJoystick.HELPER.getY(Hand.kLeft);        
+        if(y > 0.0){
+            // limit outwards pivot speed
+            y = y * 0.4;
+        }        
         Robot.ballonBox.pivot(y);
 
+        // Balloon drop controls
         int pov = XBoxJoystick.HELPER.getPOV();
         if (lastPOV == POV_NONE) {
             if (pov == POV_RIGHT) {
