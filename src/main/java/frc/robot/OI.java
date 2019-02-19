@@ -23,7 +23,8 @@ public class OI {
         joystick.X.whenPressed(new IntakeOutPosition());
         joystick.A.whenPressed(new IntakeInPosition());
         joystick.bumperRight.whenPressed(new SetFrontToIntake());
-    		joystick.bumperLeft.whenPressed(new SetFrontToPanelGripper());
+        joystick.bumperLeft.whenPressed(new SetFrontToPanelGripper());
+        joystick.start.whenPressed(new StopAll());
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {

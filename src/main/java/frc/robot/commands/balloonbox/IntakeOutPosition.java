@@ -17,26 +17,27 @@ public class IntakeOutPosition extends Command {
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
-    Robot.ballonBox.pivotOutPosition();
+  protected void initialize() {    
+    setTimeout(0.5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.ballonBox.pivotOutPosition();
     Robot.ballonBox.intakeRollInside();    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Robot.ballonBox.isPivotHigh() || isTimedOut();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.ballonBox.intakeStop();
+    //Robot.ballonBox.intakeStop();
   }
 
   // Called when another command which requires one or more of the same

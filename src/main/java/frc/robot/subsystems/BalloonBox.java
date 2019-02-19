@@ -153,11 +153,11 @@ public class BalloonBox extends Subsystem {
     public void pivot(double output) {
         double limitProtectedOutput = output;
 
-        if (pivotLimitSwitchHigh.get() == LIMIT_SWITCH_PRESSED_STATE) {
+        if (isPivotHigh()){
             limitProtectedOutput = Math.min(output, 0.0);
         }
 
-        if (pivotLimitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE) {
+        if (isPivotLow()) {
             limitProtectedOutput = Math.max(output, 0.0);
         }
 
@@ -170,14 +170,28 @@ public class BalloonBox extends Subsystem {
         pivotMotor.set(ControlMode.MotionMagic, encoderCountsAtPosition, DemandType.ArbitraryFeedForward, FEED_FORWARD);
     }
 
+    public boolean isPivotHigh()
+{
+    return (pivotLimitSwitchHigh.get() == LIMIT_SWITCH_PRESSED_STATE);
+}
+
+public boolean isPivotLow()
+{
+ return (pivotLimitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE);   
+}
+
+
     public void pivotInPosition()
     {
-        pivotMotor.set(ControlMode.MotionMagic, -126.0, DemandType.ArbitraryFeedForward, FEED_FORWARD);
+        //pivotMotor.set(ControlMode.MotionMagic, -126.0, DemandType.ArbitraryFeedForward, FEED_FORWARD);
+        pivot(-0.5);
     }
+
 
     public void pivotOutPosition()
     {
-        pivotMotor.set(ControlMode.MotionMagic, 696.0, DemandType.ArbitraryFeedForward, FEED_FORWARD);
+        //pivotMotor.set(ControlMode.MotionMagic, 696.0, DemandType.ArbitraryFeedForward, FEED_FORWARD);
+        pivot(0.5);
     }
 
     public void pivotStop() {

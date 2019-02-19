@@ -9,6 +9,7 @@ public class StopAll extends InstantCommand {
         super("Stop all", () -> {
             Robot.ballonBox.intakeStop();
             Robot.elevator.stop();
+            Robot.ballonBox.pivotStop();
         });
 
         requires(Robot.ballonBox);

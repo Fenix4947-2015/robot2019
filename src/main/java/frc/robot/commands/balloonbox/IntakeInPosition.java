@@ -13,24 +13,26 @@ import frc.robot.Robot;
 public class IntakeInPosition extends Command {
   public IntakeInPosition() {
     requires(Robot.ballonBox);
+    setTimeout(0.5);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.ballonBox.pivotInPosition();
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     Robot.ballonBox.intakeRollInside();
+    Robot.ballonBox.pivotInPosition();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return true;
+    return Robot.ballonBox.isPivotLow() || isTimedOut();
   }
 
   // Called once after isFinished returns true
