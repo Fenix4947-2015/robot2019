@@ -19,14 +19,15 @@ public class Elevator extends Subsystem {
 
     private static final boolean LIMIT_SWITCH_PRESSED_STATE = false;
 
-    public static final int POSITION_ROCKET_LEVEL_1 =  5000;
+    public static final int POSITION_ROCKET_LEVEL_1 = 5000;
     public static final int POSITION_ROCKET_LEVEL_2 = 10000;
     public static final int POSITION_ROCKET_LEVEL_3 = 15000;
 
     public static final int POSITION_TOP_OF_BOX = 10000;
     public static final int POSITION_GROUND = 0;
-    
+
     private static final int POSITION_TOLERANCE = 100;
+    private static final int VARIATION_OF_COUNTS_IN_MANUAL = 100;
 
     // TOP COUNT = 0;
     // BOTTOM COUNT: 32060;
@@ -40,13 +41,13 @@ public class Elevator extends Subsystem {
     private static final int MOTOR_CONFIG_TIMEOUT_IN_MS = 30;
     private static final int PID_LOOP_ID = 0;
 
-    private static final int    PID_LOOP = 0;
-    private static final int    PID_SLOT = 0;
-    private static final int    PID_ALLOWABLE_CLOSED_LOOP_ERROR_IN_COUNTS = 0;
+    private static final int PID_LOOP = 0;
+    private static final int PID_SLOT = 0;
+    private static final int PID_ALLOWABLE_CLOSED_LOOP_ERROR_IN_COUNTS = 0;
     private static final double PID_P = 0.05;
     private static final double PID_I = 0.0;
     private static final double PID_D = 0.0;
-    private static final double PID_F = (0.5 * 1023) / TOP_VELOCITY;  
+    private static final double PID_F = (0.5 * 1023) / TOP_VELOCITY;
 
     private static final int ACCELERATION = (int) (TOP_VELOCITY / 2.0);
     private static final int CRUISE_VELOCITY = (int) (TOP_VELOCITY / 2.0);
@@ -58,7 +59,7 @@ public class Elevator extends Subsystem {
     private double pidP;
     private double pidI;
     private double pidD;
-    private double pidF;    
+    private double pidF;
 
     public Elevator() {
         super("Elevator");
@@ -86,9 +87,9 @@ public class Elevator extends Subsystem {
 
         // Config the peak and nominal outputs.
         // 1.0 means full.
-    	motor.configNominalOutputForward(0, MOTOR_CONFIG_TIMEOUT_IN_MS);
-    	motor.configNominalOutputReverse(0, MOTOR_CONFIG_TIMEOUT_IN_MS);
-        motor.configPeakOutputForward( 1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.configNominalOutputForward(0, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.configNominalOutputReverse(0, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.configPeakOutputForward(1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
         motor.configPeakOutputReverse(-1.0, MOTOR_CONFIG_TIMEOUT_IN_MS);
 
         // Config the allowable closed-loop error.
@@ -104,7 +105,7 @@ public class Elevator extends Subsystem {
         motor.config_kF(PID_SLOT, pidF, MOTOR_CONFIG_TIMEOUT_IN_MS);
 
         motor.configMotionAcceleration(ACCELERATION, MOTOR_CONFIG_TIMEOUT_IN_MS);
-		motor.configMotionCruiseVelocity(CRUISE_VELOCITY, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.configMotionCruiseVelocity(CRUISE_VELOCITY, MOTOR_CONFIG_TIMEOUT_IN_MS);
 
         limitSwitchLow = new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_LOW);
         limitSwitchHigh = new DigitalInput(RobotMap.ELEVATOR_LIMIT_SWITCH_HIGH);
@@ -119,7 +120,7 @@ public class Elevator extends Subsystem {
 
     public void move(double output) {
         double limitProtectedOutput = output;
-        
+
         if (limitSwitchHigh.get() == LIMIT_SWITCH_PRESSED_STATE) {
             limitProtectedOutput = Math.min(output, 0.0);
         }
@@ -132,10 +133,32 @@ public class Elevator extends Subsystem {
         motor.set(ControlMode.PercentOutput, limitProtectedOutput);
     }
 
-    public void doZeroIfLow()
-    {
-        if(isLow())
-        {
+    public void decreaseCount() {
+        if (isLow()) {
+            stopAtCurrentPosition();
+        } else {
+            int encoderPosition = motor.getSelectedSensorPosition();
+            int newEncoderPosition = (encoderPosition - VARIATION_OF_COUNTS_IN_MANUAL);
+            newEncoderPosition = Math.max(newEncoderPosition, 0);
+
+            moveTo(newEncoderPosition);
+        }
+    }
+
+    public void increaseCount() {
+        if (isHigh()) {
+            stopAtCurrentPosition();
+        } else {
+            int encoderPosition = motor.getSelectedSensorPosition();
+            int newEncoderPosition = (encoderPosition + VARIATION_OF_COUNTS_IN_MANUAL);
+            newEncoderPosition = Math.min(32000, 0);
+
+            moveTo(newEncoderPosition);
+        }
+    }
+
+    public void doZeroIfLow() {
+        if (isLow()) {
             zero();
         }
     }
@@ -154,6 +177,11 @@ public class Elevator extends Subsystem {
 
     public void stop() {
         motor.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    public void stopAtCurrentPosition() {
+        int encoderPosition = motor.getSelectedSensorPosition();
+        motor.set(ControlMode.MotionMagic, encoderPosition, DemandType.ArbitraryFeedForward, FEED_FORWARD);
     }
 
     public void zero() {
@@ -196,8 +224,7 @@ public class Elevator extends Subsystem {
         SmartDashboard.putNumber("Elevator position", getSensorPosition());
     }
 
-    public void periodicLogic()
-    {
+    public void periodicLogic() {
         doZeroIfLow();
     }
 }
