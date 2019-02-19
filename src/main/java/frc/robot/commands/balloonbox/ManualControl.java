@@ -2,6 +2,7 @@ package frc.robot.commands.balloonbox;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.Robot;
 import frc.robot.joysticks.XBoxJoystick;
 
@@ -34,11 +35,11 @@ public class ManualControl extends Command {
         int pov = XBoxJoystick.HELPER.getPOV();
         if (lastPOV == POV_NONE) {
             if (pov == POV_RIGHT) {
-                new DropBalloonRight().start();
+                Scheduler.getInstance().add(new DropBalloonRight());
             } else if (pov == POV_LEFT) {
-                new DropBalloonLeft().start();
+                Scheduler.getInstance().add(new DropBalloonLeft());
             } else if (pov == POV_DOWN) {
-                new ResetFlippers().start();
+                Scheduler.getInstance().add(new ResetFlippers());
             }
         }
 
