@@ -7,6 +7,7 @@ import frc.robot.subsystems.Elevator;
 public class MoveElevatorToRocketLevel extends Command {
 
     private int encoderCount;
+    private int startEncoderCount;
     
     public MoveElevatorToRocketLevel(int encoderCount) {
         requires(Robot.elevator);
@@ -19,6 +20,8 @@ public class MoveElevatorToRocketLevel extends Command {
 
     @Override
     protected void initialize() {
+        startEncoderCount = Robot.elevator.getSensorPosition();
+
         Robot.elevator.moveTo(encoderCount);
     }
 
@@ -28,7 +31,7 @@ public class MoveElevatorToRocketLevel extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Robot.elevator.isNear(encoderCount) || isTimedOut();
+        return true;
     }
 
     @Override

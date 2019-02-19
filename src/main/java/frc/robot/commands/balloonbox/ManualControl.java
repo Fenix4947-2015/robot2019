@@ -39,9 +39,9 @@ public class ManualControl extends Command {
         int pov = XBoxJoystick.HELPER.getPOV();
         if (lastPOV == POV_NONE) {
             if (pov == POV_RIGHT) {
-                Robot.ballonBox.dropBallonLeft();
-            } else if (pov == POV_LEFT) {
                 Robot.ballonBox.dropBallonRight();
+            } else if (pov == POV_LEFT) {
+                Robot.ballonBox.dropBallonLeft();
             } else if (pov == POV_DOWN) {
                 Robot.ballonBox.resetFlippers();
             }
