@@ -40,16 +40,6 @@ public class DriveArcade extends Command {
   protected void execute() {
     final boolean lockOnLineMode = XBoxJoystick.DRIVER.getButton(XBoxButton.B);
 
-    final boolean lineHitRearLeft = false;
-    final boolean lineHitRearRight = false;
-
-    final boolean lineHitFrontLeft = false;
-    final boolean lineHitFrontRight = false;
-
-    final boolean lineHitMiddleLeft = false;
-    final boolean lineHitMiddleRight = false;
-
-    /*
     final boolean lineHitRearLeft = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.REAR_LEFT);
     final boolean lineHitRearRight = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.REAR_RIGHT);
 
@@ -58,13 +48,12 @@ public class DriveArcade extends Command {
 
     final boolean lineHitMiddleLeft = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_LEFT);
     final boolean lineHitMiddleRight = Robot.sensorMonitor.isLineDetectedAndClear(SensorPos.MIDDLE_RIGHT);
-    */
 
     double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
     double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
     double moveValue = movePosValue - moveNegValue;
     double rotateValue = XBoxJoystick.DRIVER.getX(Hand.kLeft, 0.05);
-    
+
     // apply inversion if front is panel gripper
     moveValue = Robot.driveTrain.frontside.direction * moveValue;
     rotateValue = Robot.driveTrain.frontside.direction * rotateValue;
@@ -146,19 +135,19 @@ public class DriveArcade extends Command {
     case MANUAL:
       break;
     case BACKWARD_TO_LINE:
-      moveValue = 0.30;
-      rotateValue = 0.0;
-      break;
-    case FORWARD_TO_LINE:
       moveValue = -0.30;
       rotateValue = 0.0;
       break;
+    case FORWARD_TO_LINE:
+      moveValue = 0.30;
+      rotateValue = 0.0;
+      break;
     case OVERSHOOT_FORWARD:
-      moveValue = 0.35;
+      moveValue = -0.35;
       rotateValue = 0.0;
       break;
     case OVERSHOOT_BACKWARD:
-      moveValue = -0.35;
+      moveValue = 0.35;
       rotateValue = 0.0;
       break;
     case STAY_ON_LINE_STOP:

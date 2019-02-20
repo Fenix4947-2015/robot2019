@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.utility.ColorSensorCalibration;
+import frc.robot.components.SensorMonitor;
 import frc.robot.components.SensorMonitor.SensorPos;
 import frc.robot.subsystems.BalloonBox;
 import frc.robot.subsystems.DriveTrain;
@@ -33,7 +34,7 @@ public class Robot extends TimedRobot {
     public static OI oi;
 
 	  // Components / Sensors
-	  //public static SensorMonitor sensorMonitor;
+  	public static SensorMonitor sensorMonitor;
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -52,8 +53,8 @@ public class Robot extends TimedRobot {
 
         oi = new OI();
 
-       // sensorMonitor = new SensorMonitor();
-      initUtilCommands();
+      	sensorMonitor = new SensorMonitor();
+      	initUtilCommands();
     }
 
   private void initUtilCommands() {
@@ -111,6 +112,8 @@ public class Robot extends TimedRobot {
         
         lifter.frontDown();
         lifter.backDown();
+        
+        sensorMonitor.startMonitoring();
     }
 
     @Override
@@ -126,6 +129,8 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         ballonBox.periodicLogic();
+        
+        sensorMonitor.startMonitoring();
     }
 
     @Override
@@ -139,7 +144,7 @@ public class Robot extends TimedRobot {
     
     @Override
   	public void disabledInit() {
-    		//sensorMonitor.stopMonitoring();
+    		sensorMonitor.stopMonitoring();
     		System.out.println("Robot disabled");
   	}
 }
