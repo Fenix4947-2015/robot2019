@@ -1,5 +1,11 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="ColorSensor_REAR_LEFT_lineDetected" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="251"/>
+	</widget>
+	<widget field="ColorSensor_FRONT_RIGHT_lineDetected" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="84"/>
+	</widget>
 	<widget field="ColorSensor_MIDDLE_LEFT" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="468" y="61"/>
 	</widget>
