@@ -1,5 +1,26 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="ColorSensor_MIDDLE_LEFT" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="468" y="61"/>
+	</widget>
+	<widget field="ColorSensor_REAR_RIGHT" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="698" y="81"/>
+	</widget>
+	<widget field="ColorSensor_REAR_LEFT" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="476" y="83"/>
+	</widget>
+	<widget field="Drivetrain gear" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="0" y="404"/>
+	</widget>
+	<widget field="ColorSensor_FRONT_RIGHT" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="699" y="38"/>
+	</widget>
+	<widget field="ColorSensor_MIDDLE_RIGHT" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="698" y="60"/>
+	</widget>
+	<widget field="ColorSensor_FRONT_LEFT" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="470" y="39"/>
+	</widget>
 	<widget field="CalibrateBlack_ALL" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="325" y="513"/>
 	</widget>
