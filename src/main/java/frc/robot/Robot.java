@@ -1,7 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.utility.ColorSensorCalibration;
+import frc.robot.components.SensorMonitor.SensorPos;
 import frc.robot.subsystems.BalloonBox;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -49,7 +53,42 @@ public class Robot extends TimedRobot {
         oi = new OI();
 
        // sensorMonitor = new SensorMonitor();
+      initUtilCommands();
     }
+
+  private void initUtilCommands() {
+    SmartDashboard.putData("CalibrateWhite_FRONT_LEFT", new ColorSensorCalibration(SensorPos.FRONT_LEFT, true));
+    SmartDashboard.putData("CalibrateWhite_MIDDLE_LEFT", new ColorSensorCalibration(SensorPos.MIDDLE_LEFT, true));
+    SmartDashboard.putData("CalibrateWhite_REAR_LEFT", new ColorSensorCalibration(SensorPos.REAR_LEFT, true));
+    SmartDashboard.putData("CalibrateWhite_FRONT_RIGHT", new ColorSensorCalibration(SensorPos.FRONT_RIGHT, true));
+    SmartDashboard.putData("CalibrateWhite_MIDDLE_RIGHT", new ColorSensorCalibration(SensorPos.MIDDLE_RIGHT, true));
+    SmartDashboard.putData("CalibrateWhite_REAR_RIGHT", new ColorSensorCalibration(SensorPos.REAR_RIGHT, true));
+
+    SmartDashboard.putData("CalibrateBlack_FRONT_LEFT", new ColorSensorCalibration(SensorPos.FRONT_LEFT, false));
+    SmartDashboard.putData("CalibrateBlack_MIDDLE_LEFT", new ColorSensorCalibration(SensorPos.MIDDLE_LEFT, false));
+    SmartDashboard.putData("CalibrateBlack_REAR_LEFT", new ColorSensorCalibration(SensorPos.REAR_LEFT, false));
+    SmartDashboard.putData("CalibrateBlack_FRONT_RIGHT", new ColorSensorCalibration(SensorPos.FRONT_RIGHT, false));
+    SmartDashboard.putData("CalibrateBlack_MIDDLE_RIGHT", new ColorSensorCalibration(SensorPos.MIDDLE_RIGHT, false));
+    SmartDashboard.putData("CalibrateBlack_REAR_RIGHT", new ColorSensorCalibration(SensorPos.REAR_RIGHT, false));
+
+    final CommandGroup calibrateWhiteAll = new CommandGroup();
+    calibrateWhiteAll.addSequential(new ColorSensorCalibration(SensorPos.FRONT_LEFT, true));
+    calibrateWhiteAll.addSequential(new ColorSensorCalibration(SensorPos.MIDDLE_LEFT, true));
+    calibrateWhiteAll.addSequential(new ColorSensorCalibration(SensorPos.REAR_LEFT, true));
+    calibrateWhiteAll.addSequential(new ColorSensorCalibration(SensorPos.FRONT_RIGHT, true));
+    calibrateWhiteAll.addSequential(new ColorSensorCalibration(SensorPos.MIDDLE_RIGHT, true));
+    calibrateWhiteAll.addSequential(new ColorSensorCalibration(SensorPos.REAR_RIGHT, true));
+    SmartDashboard.putData("CalibrateWhite_ALL", calibrateWhiteAll);
+
+    final CommandGroup calibrateBlackAll = new CommandGroup();
+    calibrateBlackAll.addSequential(new ColorSensorCalibration(SensorPos.FRONT_LEFT, false));
+    calibrateBlackAll.addSequential(new ColorSensorCalibration(SensorPos.MIDDLE_LEFT, false));
+    calibrateBlackAll.addSequential(new ColorSensorCalibration(SensorPos.REAR_LEFT, false));
+    calibrateBlackAll.addSequential(new ColorSensorCalibration(SensorPos.FRONT_RIGHT, false));
+    calibrateBlackAll.addSequential(new ColorSensorCalibration(SensorPos.MIDDLE_RIGHT, false));
+    calibrateBlackAll.addSequential(new ColorSensorCalibration(SensorPos.REAR_RIGHT, false));
+    SmartDashboard.putData("CalibrateWhite_ALL", calibrateWhiteAll);
+  }
 
     /**
      * This function is called every robot packet, no matter the mode. Use this for items like 

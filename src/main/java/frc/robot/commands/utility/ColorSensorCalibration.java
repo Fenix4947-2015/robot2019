@@ -1,16 +1,17 @@
 package frc.robot.commands.utility;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
 import frc.robot.components.SensorMonitor.SensorPos;
 
 public class ColorSensorCalibration extends Command {
 
   private boolean finished = false;
+  private final SensorPos pos;
   private final boolean isWhiteCal;
 
-  public ColorSensorCalibration(boolean white) {
-    isWhiteCal = white;
+  public ColorSensorCalibration(SensorPos sensorPos, boolean isWhite) {
+    pos = sensorPos;
+    isWhiteCal = isWhite;
   }
 
   @Override
@@ -19,7 +20,6 @@ public class ColorSensorCalibration extends Command {
 
   @Override
   protected void execute() {
-    SensorPos pos = SensorPos.MIDDLE_LEFT;
     if (isWhiteCal) {
       System.out.println("White cal");
       //Robot.sensorMonitor.getColorSensor(pos).whiteCalibration();
