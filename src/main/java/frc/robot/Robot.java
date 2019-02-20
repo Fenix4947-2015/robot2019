@@ -87,7 +87,7 @@ public class Robot extends TimedRobot {
     calibrateBlackAll.addSequential(new ColorSensorCalibration(SensorPos.FRONT_RIGHT, false));
     calibrateBlackAll.addSequential(new ColorSensorCalibration(SensorPos.MIDDLE_RIGHT, false));
     calibrateBlackAll.addSequential(new ColorSensorCalibration(SensorPos.REAR_RIGHT, false));
-    SmartDashboard.putData("CalibrateWhite_ALL", calibrateWhiteAll);
+    SmartDashboard.putData("CalibrateBlack_ALL", calibrateBlackAll);
   }
 
     /**
