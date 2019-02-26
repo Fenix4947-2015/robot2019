@@ -12,13 +12,14 @@ public class HatchGrabber extends Subsystem {
 
   private static final int MOTOR_CONFIG_TIMEOUT_IN_MS = 30;
 
-  private static final boolean HATCH_STATE_DEPLOYED = true;
+  private static final boolean HATCH_STATE_DEPLOYED = false;
   private static final boolean HATCH_STATE_RETRACTED = !HATCH_STATE_DEPLOYED;
 
   private Solenoid hatchSolenoid;
 
   public HatchGrabber() {
     hatchSolenoid = new Solenoid(RobotMap.HATCH_GRABBER_SOLENOID_ADDRESS);
+    retract();
   }
 
   @Override

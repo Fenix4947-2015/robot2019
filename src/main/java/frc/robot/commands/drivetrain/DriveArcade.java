@@ -9,6 +9,7 @@ package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.components.SensorMonitor.SensorPos;
 import frc.robot.joysticks.XBoxButton;
@@ -62,12 +63,13 @@ public class DriveArcade extends Command {
 
     double movePosValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kRight, 0.05);
     double moveNegValue = XBoxJoystick.DRIVER.getTriggerAxis(Hand.kLeft, 0.05);
+
     double moveValue = movePosValue - moveNegValue;
     double rotateValue = XBoxJoystick.DRIVER.getX(Hand.kLeft, 0.05);
     
     // apply inversion if front is panel gripper
     moveValue = Robot.driveTrain.frontside.direction * moveValue;
-    rotateValue = Robot.driveTrain.frontside.direction * rotateValue;
+    rotateValue = -Robot.driveTrain.frontside.direction * rotateValue;
 
     int currentDpadValue = XBoxJoystick.DRIVER.getPOV();
     if (currentDpadValue != lastDpadValue) {

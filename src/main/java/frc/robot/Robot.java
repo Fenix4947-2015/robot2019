@@ -2,9 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.BalloonBox;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchGrabber;
 import frc.robot.subsystems.RobotUtilities;
 
@@ -17,8 +15,6 @@ import frc.robot.subsystems.RobotUtilities;
 public class Robot extends TimedRobot {
     
     // Subsystems.
-    public static BalloonBox ballonBox;
-    public static Elevator elevator;
     public static HatchGrabber hatchGrabber;
     public static RobotUtilities utilities;
     public static DriveTrain driveTrain;
@@ -35,8 +31,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        ballonBox = new BalloonBox();
-        elevator = new Elevator();
         hatchGrabber = new HatchGrabber();
         utilities = new RobotUtilities();
         driveTrain = new DriveTrain();
@@ -57,8 +51,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        ballonBox.log();
-        elevator.log();        
         oi.log();
         
     }
@@ -71,7 +63,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-        elevator.zero();
     }
 
     @Override
@@ -82,8 +73,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        elevator.zero();
-        ballonBox.periodicLogic();
     }
 
     @Override

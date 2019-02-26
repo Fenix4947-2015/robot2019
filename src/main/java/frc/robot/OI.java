@@ -3,13 +3,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.StopAll;
-import frc.robot.commands.balloonbox.IntakeInPosition;
-import frc.robot.commands.balloonbox.IntakeOutPosition;
 import frc.robot.commands.drivetrain.SetFrontToIntake;
 import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
 import frc.robot.commands.hatchgrabber.DeployHatch;
 import frc.robot.commands.hatchgrabber.RetractHatch;
-import frc.robot.commands.elevator.LoadBalloonIntoBox;
 import frc.robot.joysticks.XBoxJoystick;
 
 public class OI {
@@ -20,15 +17,12 @@ public class OI {
     }
 
     private void initJoystickOfDriver(XBoxJoystick joystick) {
-        joystick.X.whenPressed(new IntakeOutPosition());
-        joystick.A.whenPressed(new IntakeInPosition());
         joystick.bumperRight.whenPressed(new SetFrontToIntake());
         joystick.bumperLeft.whenPressed(new SetFrontToPanelGripper());
         joystick.start.whenPressed(new StopAll());
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {
-        joystick.A.whenPressed(new LoadBalloonIntoBox());
 
         joystick.bumperLeft.whenPressed(new RetractHatch());
         joystick.bumperRight.whenPressed(new DeployHatch());
