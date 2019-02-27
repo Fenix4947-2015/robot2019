@@ -89,7 +89,7 @@ public class DriveTrain extends Subsystem {
     if (Math.abs(speed) > 0.1) {
       // TODO Tune the constant values. Has a speed proportional component (friction
       // in mechanism() and a fixed component
-      goStraightCompensation = frontside.direction * speed * DriveTrainConstants.GO_STRAIGHT_COMPENSATION_DYNAMIC
+      goStraightCompensation = speed * DriveTrainConstants.GO_STRAIGHT_COMPENSATION_DYNAMIC
           + DriveTrainConstants.GO_STRAIGHT_COMPENSATION_STATIC * Math.signum(speed);
     }
 
