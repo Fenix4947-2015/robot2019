@@ -64,7 +64,9 @@ public class Elevator extends Subsystem {
         double limitProtectedOutput = output;
 
         if (isHigh()) {
-            limitProtectedOutput = Math.min(output, 0.0);
+            if (output >= 0.0) {
+                limitProtectedOutput = STOP_OUTPUT;
+            }
         }
 
         if (isLow()) {
