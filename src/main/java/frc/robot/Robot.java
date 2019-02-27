@@ -65,24 +65,21 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-    	//	sensorMonitor.startMonitoring();
+    	elevator.zero();
     }
 
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-        elevator.zero();
     }
 
     @Override
     public void teleopInit() {
-    	//	sensorMonitor.startMonitoring();
     }
 
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        elevator.zero();
         ballonBox.periodicLogic();
     }
 

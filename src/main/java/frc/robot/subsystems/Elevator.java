@@ -71,7 +71,6 @@ public class Elevator extends Subsystem {
 
         if (isLow()) {
             limitProtectedOutput = Math.max(output, 0.0);
-            zero();
         }
 
         motor.set(ControlMode.PercentOutput, limitProtectedOutput);
