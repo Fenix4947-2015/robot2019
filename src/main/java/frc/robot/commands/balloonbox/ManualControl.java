@@ -36,12 +36,13 @@ public class ManualControl extends Command {
         Robot.ballonBox.pivot(y);
 
         // Balloon drop controls
+        // Controls are reversed as requested by the pilots! (compressor side = right side)
         int pov = XBoxJoystick.HELPER.getPOV();
         if (lastPOV == POV_NONE) {
             if (pov == POV_RIGHT) {
-                Robot.ballonBox.dropBallonRight();
-            } else if (pov == POV_LEFT) {
                 Robot.ballonBox.dropBallonLeft();
+            } else if (pov == POV_LEFT) {
+                Robot.ballonBox.dropBallonRight();
             } else if (pov == POV_DOWN) {
                 Robot.ballonBox.resetFlippers();
             }
