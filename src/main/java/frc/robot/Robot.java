@@ -6,6 +6,7 @@ import frc.robot.subsystems.BalloonBox;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.HatchGrabber;
+import frc.robot.subsystems.Lifter;
 import frc.robot.subsystems.RobotUtilities;
 
 /**
@@ -22,6 +23,7 @@ public class Robot extends TimedRobot {
     public static HatchGrabber hatchGrabber;
     public static RobotUtilities utilities;
     public static DriveTrain driveTrain;
+    public static Lifter lifter;
 
     // Operator interfaces.
     public static OI oi;
@@ -40,6 +42,7 @@ public class Robot extends TimedRobot {
         hatchGrabber = new HatchGrabber();
         utilities = new RobotUtilities();
         driveTrain = new DriveTrain();
+        lifter = new Lifter();
 
         RobotMap.init();
 
@@ -65,7 +68,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-    	elevator.zero();
+        elevator.zero();
+        
+        lifter.frontDown();
+        lifter.backDown();
     }
 
     @Override

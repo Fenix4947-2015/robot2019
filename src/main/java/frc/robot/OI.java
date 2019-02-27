@@ -9,6 +9,8 @@ import frc.robot.commands.drivetrain.SetFrontToIntake;
 import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
 import frc.robot.commands.hatchgrabber.DeployHatch;
 import frc.robot.commands.hatchgrabber.RetractHatch;
+import frc.robot.commands.lifter.ToggleBackLift;
+import frc.robot.commands.lifter.ToggleFrontLift;
 import frc.robot.commands.elevator.LoadBalloonIntoBox;
 import frc.robot.joysticks.XBoxJoystick;
 
@@ -22,8 +24,13 @@ public class OI {
     private void initJoystickOfDriver(XBoxJoystick joystick) {
         joystick.X.whenPressed(new IntakeOutPosition());
         joystick.A.whenPressed(new IntakeInPosition());
+
+        joystick.Y.whenPressed(new ToggleFrontLift());
+        joystick.B.whenPressed(new ToggleBackLift());
+
         joystick.bumperRight.whenPressed(new SetFrontToIntake());
         joystick.bumperLeft.whenPressed(new SetFrontToPanelGripper());
+
         joystick.start.whenPressed(new StopAll());
     }
 

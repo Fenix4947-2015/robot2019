@@ -42,6 +42,10 @@ public class RobotMap {
     public static final int COLOR_SENSOR_REAR_RIGHT_ADDRESS = 0x20;
     public static final int COLOR_SENSOR_FRONT_RIGHT_ADDRESS = 0x14;
 
+    // Lifter.
+    public static final int LIFTER_FRONT_SOLENOID_ADDRESS = -1;
+    public static final int LIFTER_BACK_SOLENOID_ADDRESS = -1;
+
     public static void init() {
         SmartDashboard.putData(Scheduler.getInstance());
 
