@@ -3,6 +3,7 @@ package frc.robot;
 import frc.robot.commands.StopAll;
 import frc.robot.commands.balloonbox.IntakeInPosition;
 import frc.robot.commands.balloonbox.IntakeOutPosition;
+import frc.robot.commands.balloonbox.ToggleIntakeRoller;
 import frc.robot.commands.drivetrain.SetFrontToIntake;
 import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
 import frc.robot.commands.elevator.LoadBalloonIntoBox;
@@ -23,8 +24,8 @@ public class OI {
     }
 
     private void initJoystickOfDriver(XBoxJoystick joystick) {
-        joystick.X.whenPressed(new IntakeOutPosition());
-        joystick.A.whenPressed(new IntakeInPosition());
+        //joystick.X.whenPressed(new IntakeOutPosition());
+        //joystick.A.whenPressed(new IntakeInPosition());
 
         joystick.Y.whenPressed(new ToggleFrontLift());
         joystick.B.whenPressed(new ToggleBackLift());
@@ -32,8 +33,10 @@ public class OI {
         joystick.bumperRight.whenPressed(new SetFrontToIntake());
         joystick.bumperLeft.whenPressed(new SetFrontToPanelGripper());
 
-        joystick.back.whenPressed(new MoveElevatorToLow());
-        joystick.start.whenPressed(new MoveElevatorToCount(Elevator.POS_HATCH_DURING_SANDSTORM));
+        joystick.A.whenPressed(new MoveElevatorToLow());
+        joystick.X.whenPressed(new MoveElevatorToCount(Elevator.POS_HATCH_DURING_SANDSTORM));
+
+        joystick.start.whenPressed(new StopAll());
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {
@@ -43,6 +46,7 @@ public class OI {
         joystick.bumperRight.whenPressed(new DeployHatch());
 
         joystick.start.whenPressed(new StopAll());
+        joystick.stickLeft.whenPressed(new ToggleIntakeRoller());
     }
 
     public void log() {

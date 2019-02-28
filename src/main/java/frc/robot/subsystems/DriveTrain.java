@@ -51,7 +51,7 @@ public class DriveTrain extends Subsystem {
     }
   }
   
-  public FrontSide frontside = FrontSide.INTAKE;
+  public FrontSide frontside = FrontSide.PANEL_GRIPPER;
 
   public DriveTrain() {
     // Initialize drivetrain motors

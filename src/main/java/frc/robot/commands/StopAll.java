@@ -10,8 +10,12 @@ public class StopAll extends InstantCommand {
             Robot.ballonBox.intakeStop();
             Robot.elevator.stop();
             Robot.ballonBox.pivotStop();
+
         });
 
         requires(Robot.ballonBox);
+        requires(Robot.driveTrain);
+        requires(Robot.hatchGrabber);
+        requires(Robot.lifter);
     }
 }

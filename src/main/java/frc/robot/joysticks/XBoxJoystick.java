@@ -43,6 +43,26 @@ public enum XBoxJoystick {
         return getX(hand, DEFAULT_DEADBAND);
     }
 
+    // RUMBLE Methods
+	/*public void setJoystickDriverRumble(RumbleType rumbleType, float value) {
+		joystickDriver.setRumble(rumbleType, value);
+	}
+
+	public void stopJoystickDriverRumble() {
+		joystickDriver.setRumble(RumbleType.kLeftRumble, 0.0f);
+		joystickDriver.setRumble(RumbleType.kRightRumble, 0.0f);
+	}
+
+	public void setJoystickHelperRumble(RumbleType rumbleType, float value) {
+		joystickHelper.setRumble(rumbleType, value);
+	}
+
+	public void stopJoystickHelperRumble() {
+		joystickHelper.setRumble(RumbleType.kLeftRumble, 0.0f);
+		joystickHelper.setRumble(RumbleType.kRightRumble, 0.0f);
+	}*/
+
+
     public double getX(Hand hand, double deadband) {
         double x = getXRaw(hand);
         return applyDeadband(x, deadband);

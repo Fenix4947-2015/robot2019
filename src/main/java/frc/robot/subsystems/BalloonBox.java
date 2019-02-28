@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -66,6 +67,7 @@ public class BalloonBox extends Subsystem {
 
     private void createPivotMotor() {
         pivotMotor = createMotor(RobotMap.PIVOT_MOTOR_ADDRESS);
+
     }
 
     private static WPI_TalonSRX createMotor(int deviceNumber) {
@@ -84,6 +86,7 @@ public class BalloonBox extends Subsystem {
         // Closed-Loop output will be neutral within this range.
         // See Table in Section 17.2.1 for native units per rotation.
         motor.configAllowableClosedloopError(PID_SLOT, PID_ALLOWABLE_CLOSED_LOOP_ERROR_IN_COUNTS, MOTOR_CONFIG_TIMEOUT_IN_MS);
+        motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, PID_LOOP, MOTOR_CONFIG_TIMEOUT_IN_MS);
 
         // Config position closed-loop gains in slot.
         // Typically kF stays zero.
@@ -114,6 +117,17 @@ public class BalloonBox extends Subsystem {
 
     public void intakeStop() {
         intakeRollerMotor.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    public void toggleIntakeRoller(){
+        double currentSpeed = intakeRollerMotor.getMotorOutputPercent();
+        if(currentSpeed > 0.3)
+        {
+            intakeStop();
+        }
+        else{
+            intakeRollInside();
+        }
     }
 
     public void dropBallonLeft() {
@@ -179,12 +193,18 @@ public class BalloonBox extends Subsystem {
 
     public boolean isPivotHigh()
 {
-    return (pivotLimitSwitchHigh.get() == HIGH_PIVOT_LIMIT_SWITCH_PRESSED_STATE);
+    int HIGH_THRESHOLD = 1050 ;
+    return (pivotMotor.getSelectedSensorPosition() >= HIGH_THRESHOLD);
+    //return false;
+    //return (pivotLimitSwitchHigh.get() == HIGH_PIVOT_LIMIT_SWITCH_PRESSED_STATE);
 }
 
 public boolean isPivotLow()
 {
- return (pivotLimitSwitchLow.get() == LOW_PIVOT_LIMIT_SWITCH_PRESSED_STATE);   
+    int LOW_THRESHOLD = -900 ;
+    //return (pivotLimitSwitchLow.get() == LOW_PIVOT_LIMIT_SWITCH_PRESSED_STATE);   
+    // return false;
+    return (pivotMotor.getSelectedSensorPosition() <= LOW_THRESHOLD);
 }
 
 
@@ -219,14 +239,6 @@ public boolean isPivotLow()
 
     public boolean isRightFlipperOpened() {
         return flipperRightSolenoid.get() == FLIPPER_STATE_OPEN;
-    }
-
-    public void periodicLogic()
-    {
-        if(isPivotLow())
-        {
-            zeroPivot();
-        }
     }
 
     public void log() {

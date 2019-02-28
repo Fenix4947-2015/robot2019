@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
 import frc.robot.subsystems.BalloonBox;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -69,15 +70,16 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         elevator.zero();
-        
+        ballonBox.zeroPivot();
         lifter.frontDown();
-        lifter.backDown();
+        lifter.backDown(); 
+        driveTrain.setFrontToPanelGripper();       
+
     }
 
     @Override
     public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-        ballonBox.periodicLogic();
+        Scheduler.getInstance().run();        
     }
 
     @Override
@@ -87,7 +89,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        ballonBox.periodicLogic();
+        
     }
 
     @Override

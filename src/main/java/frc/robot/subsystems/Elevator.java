@@ -22,7 +22,7 @@ public class Elevator extends Subsystem {
     public static final int POS_ROCKET_LEVEL_2 = 15761;
     public static final int POS_ROCKET_LEVEL_1 = 4068;
 
-    public static final int POS_HATCH_DURING_SANDSTORM = 4068;
+    public static final int POS_HATCH_DURING_SANDSTORM = 3500;
 
     private static final double STOP_OUTPUT = 0.1;
 
