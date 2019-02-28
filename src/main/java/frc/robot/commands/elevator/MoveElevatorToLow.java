@@ -14,7 +14,7 @@ public class MoveElevatorToLow extends Command {
 
     @Override
     protected void initialize() {
-        Robot.elevator.move(-0.3);
+        Robot.elevator.move(-0.5);
     }
 
     @Override

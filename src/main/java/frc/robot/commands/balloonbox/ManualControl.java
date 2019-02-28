@@ -31,8 +31,12 @@ public class ManualControl extends Command {
         double y = XBoxJoystick.DRIVER.getY(Hand.kRight);        
         if(y > 0.0){
             // limit outwards pivot speed
-            y = y;
-        }        
+            y = y*0.45;
+        }
+        else{
+            y = y * 0.55;
+        }
+                
         Robot.ballonBox.pivot(y);
 
         // Balloon drop controls

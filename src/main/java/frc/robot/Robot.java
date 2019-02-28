@@ -102,5 +102,5 @@ public class Robot extends TimedRobot {
   	public void disabledInit() {
     		//sensorMonitor.stopMonitoring();
     		System.out.println("Robot disabled");
-  	}
+      }
 }
