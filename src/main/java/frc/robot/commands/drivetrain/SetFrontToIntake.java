@@ -14,6 +14,10 @@ public class SetFrontToIntake extends CommandGroup {
         addParallel(new InstantCommand(() -> {
             // Set camera server to front camera.
             // See http://wpilib.screenstepslive.com/s/currentCS/m/vision/l/708159-using-multiple-cameras
+          // NetworkTable for SmartDashboard cam selection
+          // NetworkTableInstance.getDefault().getTable("").getEntry("CameraSelection").setString(Robot.intakeCam.getName());
+          // Changing the camera server dynamically
+          Robot.camServer.setSource(Robot.intakeCam);
         }));
 
         setInterruptible(false);

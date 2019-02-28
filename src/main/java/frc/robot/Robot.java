@@ -1,5 +1,9 @@
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
+import edu.wpi.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.BalloonBox;
@@ -25,6 +29,10 @@ public class Robot extends TimedRobot {
     public static DriveTrain driveTrain;
     public static Lifter lifter;
 
+    public static UsbCamera intakeCam;
+    public static UsbCamera hatchCam;
+    public static VideoSink camServer;
+
     // Operator interfaces.
     public static OI oi;
 
@@ -49,6 +57,24 @@ public class Robot extends TimedRobot {
         oi = new OI();
 
        // sensorMonitor = new SensorMonitor();
+
+        intakeCam = CameraServer.getInstance().startAutomaticCapture("intakeCam", RobotMap.INTAKE_CAMERA_DEV);
+        hatchCam = CameraServer.getInstance().startAutomaticCapture("hatchCam", RobotMap.HATCH_CAMERA_DEV);
+
+        /*
+         * Keeping Streams Open
+         * 
+         * By default, the cscore library is pretty aggressive in
+         * turning off cameras not in use. What this means is that when you switch
+         * cameras, it may disconnect from the camera not in use, so switching back will
+         * have some delay as it reconnects to the camera. To keep both camera
+         * connections open, use the SetConnectionStrategy() method to tell the library
+         * to keep the streams open, even if you aren't using them.
+         */
+        intakeCam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+        hatchCam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+
+        camServer = CameraServer.getInstance().getServer();
     }
 
     /**

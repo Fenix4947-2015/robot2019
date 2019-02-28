@@ -9,6 +9,10 @@ public class RobotMap {
     public static final int JOYSTICK_DRIVER_PORT = 0;
     public static final int JOYSTICK_HELPER_PORT = 1;
 
+    // Cameras
+    public static final int INTAKE_CAMERA_DEV = 0;
+    public static final int HATCH_CAMERA_DEV = 1;
+
     // Drive train.
     public static final int LEFT_MOTOR1_ADDRESS = 7;
     public static final int LEFT_MOTOR2_ADDRESS = 1;
