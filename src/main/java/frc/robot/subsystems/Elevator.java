@@ -14,6 +14,16 @@ import frc.robot.commands.elevator.MoveElevatorManually;
 public class Elevator extends Subsystem {
 
     public static final double COMMAND_TIMEOUT_IN_SECONDS = 10.0;
+
+    private static final int POS_HIGH = 32000;
+    private static final int POS_LOW = 0;
+    
+    public static final int POS_ROCKET_LEVEL_3 = POS_HIGH;
+    public static final int POS_ROCKET_LEVEL_2 = 15761;
+    public static final int POS_ROCKET_LEVEL_1 = 4068;
+
+    public static final int POS_HATCH_DURING_SANDSTORM = 4068;
+
     private static final double STOP_OUTPUT = 0.1;
 
     private static final int PID_LOOP = 0;
@@ -27,7 +37,7 @@ public class Elevator extends Subsystem {
 
     public Elevator() {
         super("Elevator");
-
+        
         motor = new WPI_TalonSRX(RobotMap.ELEVATOR_MOTOR_ADDRESS);
         motor.configFactoryDefault();
 
@@ -76,7 +86,17 @@ public class Elevator extends Subsystem {
         motor.set(ControlMode.PercentOutput, limitProtectedOutput);
     }
 
-    public void moveTo(int encoderCount) {
+    public void moveTo(int count) {
+        if (count < POS_LOW) {
+            count = POS_LOW;
+        } else if (count > POS_HIGH) {
+            count = POS_HIGH;
+        }
+
+        int currentCount = getSensorPosition();
+        double output = (currentCount > count) ? -0.6 : 0.8;
+
+        move(output);
     }
 
     public void stop() {
@@ -98,7 +118,7 @@ public class Elevator extends Subsystem {
     }
 
     public boolean isLow() {
-        return limitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE;
+        return (limitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE) || (getSensorPosition() <= POS_LOW);
     }
 
     public boolean isHigh() {

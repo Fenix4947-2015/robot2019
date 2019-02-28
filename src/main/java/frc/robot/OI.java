@@ -1,18 +1,19 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.StopAll;
 import frc.robot.commands.balloonbox.IntakeInPosition;
 import frc.robot.commands.balloonbox.IntakeOutPosition;
 import frc.robot.commands.drivetrain.SetFrontToIntake;
 import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
+import frc.robot.commands.elevator.LoadBalloonIntoBox;
+import frc.robot.commands.elevator.MoveElevatorToCount;
+import frc.robot.commands.elevator.MoveElevatorToLow;
 import frc.robot.commands.hatchgrabber.DeployHatch;
 import frc.robot.commands.hatchgrabber.RetractHatch;
 import frc.robot.commands.lifter.ToggleBackLift;
 import frc.robot.commands.lifter.ToggleFrontLift;
-import frc.robot.commands.elevator.LoadBalloonIntoBox;
 import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.subsystems.Elevator;
 
 public class OI {
 
@@ -31,7 +32,8 @@ public class OI {
         joystick.bumperRight.whenPressed(new SetFrontToIntake());
         joystick.bumperLeft.whenPressed(new SetFrontToPanelGripper());
 
-        joystick.start.whenPressed(new StopAll());
+        joystick.back.whenPressed(new MoveElevatorToLow());
+        joystick.start.whenPressed(new MoveElevatorToCount(Elevator.POS_HATCH_DURING_SANDSTORM));
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {
