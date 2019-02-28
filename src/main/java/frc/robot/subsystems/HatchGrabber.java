@@ -10,7 +10,7 @@ public class HatchGrabber extends Subsystem {
 
   public static final double HATCHGRABBER_TIMEOUT_IN_S = 1.0;
 
-  private static final boolean HATCH_STATE_DEPLOYED = false;
+  private static final boolean HATCH_STATE_DEPLOYED = true;
   private static final boolean HATCH_STATE_RETRACTED = !HATCH_STATE_DEPLOYED;
 
   private Solenoid hatchSolenoid;

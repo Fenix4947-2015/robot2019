@@ -67,7 +67,7 @@ public class DriveArcade extends Command {
     
     // apply inversion if front is panel gripper
     moveValue = Robot.driveTrain.frontside.direction * moveValue;
-    rotateValue = Robot.driveTrain.frontside.direction * rotateValue;
+    rotateValue = Robot.driveTrain.frontside.rotation * rotateValue;
 
     int currentDpadValue = XBoxJoystick.DRIVER.getPOV();
     if (currentDpadValue != lastDpadValue) {

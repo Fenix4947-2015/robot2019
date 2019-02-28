@@ -40,12 +40,14 @@ public class DriveTrain extends Subsystem {
   public Pigeon pigeon = new Pigeon();
 
   public enum FrontSide {
-    INTAKE(1.0), PANEL_GRIPPER(-1.0);
+    INTAKE(1.0, 1.0), PANEL_GRIPPER(-1.0, 1.0);
     
     public final double direction;
+    public final double rotation;
     
-    private FrontSide(double direction) {
+    private FrontSide(double direction, double rotation) {
       this.direction = direction;
+      this.rotation = rotation;
     }
   }
   

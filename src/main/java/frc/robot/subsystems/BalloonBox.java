@@ -31,8 +31,11 @@ public class BalloonBox extends Subsystem {
     private static final int CRUISE_VELOCITY = (int) (TOP_VELOCITY / 2.0);
     private static final double FEED_FORWARD = 0.0;
 
-    private static final boolean LIMIT_SWITCH_PRESSED_STATE = false;
-    private static final boolean LIMIT_SWITCH_RELEASED_STATE = !LIMIT_SWITCH_PRESSED_STATE;
+    private static final boolean LOW_PIVOT_LIMIT_SWITCH_PRESSED_STATE = false;
+    private static final boolean LOW_PIVOT_LIMIT_SWITCH_RELEASED_STATE = !LOW_PIVOT_LIMIT_SWITCH_PRESSED_STATE;
+
+    private static final boolean HIGH_PIVOT_LIMIT_SWITCH_PRESSED_STATE = true;
+    private static final boolean HIGH_PIVOT_LIMIT_SWITCH_RELEASED_STATE = !HIGH_PIVOT_LIMIT_SWITCH_PRESSED_STATE;
 
     private static final boolean FLIPPER_STATE_OPEN = true;
     private static final boolean FLIPPER_STATE_CLOSE = !FLIPPER_STATE_OPEN;
@@ -176,12 +179,12 @@ public class BalloonBox extends Subsystem {
 
     public boolean isPivotHigh()
 {
-    return (pivotLimitSwitchHigh.get() == LIMIT_SWITCH_PRESSED_STATE);
+    return (pivotLimitSwitchHigh.get() == HIGH_PIVOT_LIMIT_SWITCH_PRESSED_STATE);
 }
 
 public boolean isPivotLow()
 {
- return (pivotLimitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE);   
+ return (pivotLimitSwitchLow.get() == LOW_PIVOT_LIMIT_SWITCH_PRESSED_STATE);   
 }
 
 
