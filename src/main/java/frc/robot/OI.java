@@ -11,6 +11,7 @@ import frc.robot.commands.elevator.MoveElevatorToCount;
 import frc.robot.commands.elevator.MoveElevatorToLow;
 import frc.robot.commands.hatchgrabber.DeployHatch;
 import frc.robot.commands.hatchgrabber.RetractHatch;
+import frc.robot.commands.hatchgrabber.RetractHatchMacro;
 import frc.robot.commands.lifter.ToggleBackLift;
 import frc.robot.commands.lifter.ToggleFrontLift;
 import frc.robot.joysticks.XBoxJoystick;
@@ -42,11 +43,15 @@ public class OI {
     private void initJoystickOfHelper(XBoxJoystick joystick) {
         joystick.A.whenPressed(new LoadBalloonIntoBox());
 
-        joystick.bumperLeft.whenPressed(new RetractHatch());
+        joystick.bumperLeft.whenPressed(new RetractHatchMacro());
         joystick.bumperRight.whenPressed(new DeployHatch());
 
         joystick.start.whenPressed(new StopAll());
         joystick.stickLeft.whenPressed(new ToggleIntakeRoller());
+
+        joystick.X.whenPressed(new MoveElevatorToCount(Elevator.POS_ROCKET_LEVEL_1));
+        joystick.Y.whenPressed(new MoveElevatorToCount(Elevator.POS_ROCKET_LEVEL_2));
+        joystick.B.whenPressed(new MoveElevatorToCount(Elevator.POS_ROCKET_LEVEL_3));
     }
 
     public void log() {

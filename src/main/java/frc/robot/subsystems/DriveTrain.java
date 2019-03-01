@@ -98,6 +98,11 @@ public class DriveTrain extends Subsystem {
     robotDrive.arcadeDrive(speed, rotation + goStraightCompensation);
   }
 
+  public void stopMotors()
+  {
+    robotDrive.arcadeDrive(0.0,0.0);
+  }
+
   public void shift(Gear gear) {
     shifter.set(gear.solenoidState);
     SmartDashboard.putString("Drivetrain gear", gear.toString());
