@@ -8,3 +8,5 @@ Refaire le mapping papier
 Refaire le mapping helper (operateur) pour avoir un mode hatch et un mode ballon. 
 
 Mode automatique pour se tirer en bas. - activer dans le code.
+
+pour nouveau push
