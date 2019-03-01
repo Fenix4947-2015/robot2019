@@ -51,7 +51,7 @@ public class OI {
         joystick.bumperLeft.whenPressed(new ActivateHatchModeForHelper());
         joystick.bumperRight.whenPressed(new ActivateCargoModeForHelper());
 
-        joystick.back.whenPressed(new RetractHatchMacro());
+        joystick.back.whenPressed(new MoveElevatorToCount(Elevator.POS_HATCH_LOADING_STATION));
         joystick.start.whenPressed(new StopAll());
 
         joystick.stickLeft.whenPressed(new ToggleIntakeRoller());

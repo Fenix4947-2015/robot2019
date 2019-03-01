@@ -2,8 +2,11 @@ package frc.robot.commands.balloonbox;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.Robot;
 import frc.robot.Robot.HelperMode;
+import frc.robot.commands.hatchgrabber.DeployHatchMacro;
+import frc.robot.commands.hatchgrabber.RetractHatchMacro;
 import frc.robot.joysticks.XBoxJoystick;
 
 public class ManualControl extends Command {
@@ -63,9 +66,11 @@ public class ManualControl extends Command {
         } else if (Robot.isHelperModeHatch()) {
             if (lastPOV == POV_NONE) {
                 if (pov == POV_UP) {
-                    Robot.hatchGrabber.deploy();
+                    Scheduler.getInstance().add(new DeployHatchMacro());
+                    //Robot.hatchGrabber.deploy();
                 } else if (pov == POV_DOWN) {
-                    Robot.hatchGrabber.retract();
+                    Scheduler.getInstance().add(new RetractHatchMacro());
+                    //Robot.hatchGrabber.retract();
                 }
             }
         }

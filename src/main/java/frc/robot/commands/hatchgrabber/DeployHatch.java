@@ -20,7 +20,7 @@ public class DeployHatch extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     @Override

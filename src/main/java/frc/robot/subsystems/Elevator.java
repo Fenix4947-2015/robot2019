@@ -25,10 +25,13 @@ public class Elevator extends Subsystem {
     public static final int POS_HATCH_LEVEL_3 = 28250;
     public static final int POS_HATCH_LEVEL_2 = 15100;
     public static final int POS_HATCH_LEVEL_1 = 3900;
+    public static final int POS_HATCH_LOADING_STATION = 1500;
+
+    public static final int POS_HATCH_LEVEL_1_MINIMUM_THRESHOLD = 2500;
 
     public static final int POS_HATCH_DURING_SANDSTORM = 3500;
 
-    public static final int POS_CARGO_AT_HUMAN_STATION = 13070;
+    public static final int POS_CARGO_AT_HUMAN_STATION = 15070;
 
     private static final double STOP_OUTPUT = 0.1;
 
@@ -125,6 +128,17 @@ public class Elevator extends Subsystem {
 
     public boolean isLow() {
         return (limitSwitchLow.get() == LIMIT_SWITCH_PRESSED_STATE) || (getSensorPosition() <= POS_LOW);
+    }
+
+    public boolean isTooLowForHatch()
+    {
+        if(getSensorPosition()<POS_HATCH_LEVEL_1_MINIMUM_THRESHOLD)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public boolean isHigh() {
