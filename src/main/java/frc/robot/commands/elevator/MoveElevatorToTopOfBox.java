@@ -10,7 +10,7 @@ public class MoveElevatorToTopOfBox extends Command {
         requires(Robot.elevator);
 
         setInterruptible(true);
-        setTimeout(2.0);
+        setTimeout(2.1);
     }
 
     @Override

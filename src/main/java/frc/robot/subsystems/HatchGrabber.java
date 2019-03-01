@@ -35,6 +35,5 @@ public class HatchGrabber extends Subsystem {
   }
 
   public void log() {
-    SmartDashboard.putBoolean("Hatch grabber deployed", hatchSolenoid.get());
   }
 }

@@ -1,5 +1,7 @@
 package frc.robot.commands.lifter;
 
+import java.util.concurrent.TimeUnit;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Lifter;
@@ -15,7 +17,12 @@ public class ToggleBackLift extends Command {
 
     @Override
     protected void initialize() {
-        Robot.lifter.toggleBack();
+        long sinceStartOfMatchsMillis = System.currentTimeMillis() - Robot.startOfAutonomousMillis;
+        if (sinceStartOfMatchsMillis < TimeUnit.MINUTES.toMillis(2L)) {
+            cancel();
+        } else {
+            Robot.lifter.toggleBack();
+        }
     }
 
     @Override

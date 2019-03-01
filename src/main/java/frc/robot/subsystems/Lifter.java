@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 public class Lifter extends Subsystem {
@@ -82,5 +83,10 @@ public class Lifter extends Subsystem {
 
         boolean currentState = backSolenoid.get();
         backSolenoid.set(!currentState);
+    }
+
+    public void log() {
+        SmartDashboard.putBoolean("Front Lift", frontSolenoid.get());
+        SmartDashboard.putBoolean("Back Lift", backSolenoid.get());
     }
 }

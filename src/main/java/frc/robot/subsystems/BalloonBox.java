@@ -243,8 +243,5 @@ public boolean isPivotLow()
 
     public void log() {
         SmartDashboard.putNumber("Pivot motor count", pivotMotor.getSelectedSensorPosition());
-        
-        SmartDashboard.putBoolean("Left flipper", isLeftFlipperClosed());
-        SmartDashboard.putBoolean("Right flipper", isRightFlipperClosed());
     }
 }

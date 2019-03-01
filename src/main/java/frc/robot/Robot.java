@@ -1,9 +1,10 @@
 package frc.robot;
 
+import java.util.concurrent.TimeUnit;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
 import frc.robot.subsystems.BalloonBox;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -36,6 +37,8 @@ public class Robot extends TimedRobot {
     public static OI oi;
 
     private static HelperMode helperMode = HelperMode.HATCH;
+
+    public static long startOfAutonomousMillis;
 
 	  // Components / Sensors
 	  //public static SensorMonitor sensorMonitor;
@@ -70,10 +73,14 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         ballonBox.log();
-        elevator.log();        
+        elevator.log();  
+        lifter.log();            
         oi.log();
 
         SmartDashboard.putString("Helper Mode", Robot.helperMode.name());
+
+        long sinceStartOfMatchsMillis = System.currentTimeMillis() - Robot.startOfAutonomousMillis;
+        SmartDashboard.putNumber("Since start (secs)", TimeUnit.MILLISECONDS.toSeconds(sinceStartOfMatchsMillis));
     }
 
     @Override
@@ -84,6 +91,8 @@ public class Robot extends TimedRobot {
         lifter.backDown(); 
         driveTrain.setFrontToPanelGripper();       
         setHelperMode(HelperMode.HATCH);
+
+        Robot.startOfAutonomousMillis = System.currentTimeMillis();
     }
 
     @Override

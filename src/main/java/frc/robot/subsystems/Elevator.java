@@ -133,8 +133,6 @@ public class Elevator extends Subsystem {
 
     public void log() {
         SmartDashboard.putNumber("Elevator motor output", motor.getMotorOutputPercent());
-        SmartDashboard.putBoolean("Elevator low switch", limitSwitchLow.get());
-        SmartDashboard.putBoolean("Elevator high switch", limitSwitchHigh.get());
         SmartDashboard.putNumber("Elevator position", motor.getSelectedSensorPosition());
     }
 }

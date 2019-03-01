@@ -40,6 +40,11 @@ public class ManualControl extends Command {
         }                
         Robot.ballonBox.pivot(y);
 
+        double rollInValue = XBoxJoystick.HELPER.getTriggerAxis(Hand.kRight, 0.05) * 0.5;
+        double rollOutValue = XBoxJoystick.HELPER.getTriggerAxis(Hand.kLeft, 0.05);
+        double rollValue = rollInValue - rollOutValue;
+
+        Robot.ballonBox.intakeRoll(rollValue);
 
         int pov = XBoxJoystick.HELPER.getPOV();
 
