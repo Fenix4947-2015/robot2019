@@ -2,35 +2,46 @@ package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.Robot.HelperMode;
 import frc.robot.subsystems.Elevator;
 
 public class MoveElevatorToCount extends Command {
 
     private static final int DEFAULT_TOLERANCE = 512;
 
-    private int countToReach;
-    private int tolerance;
+    private final int countToReachInCargoMode;
+    private final int countToReachInHatchMode;
+    private final int tolerance;
     
+    private int countToReach;
     private int previousOffset;
     private int currentPos;
     private int currentOffset;
 
     public MoveElevatorToCount(int countToReach) {
-        this(countToReach, DEFAULT_TOLERANCE);
+        this(countToReach, countToReach);
     }
 
-    public MoveElevatorToCount(int countToReach, int tolerance) {
+    public MoveElevatorToCount(int countToReachInCargoMode, int countToReachInHatchMode) {
         requires(Robot.elevator);
 
         setInterruptible(true);
         setTimeout(Elevator.COMMAND_TIMEOUT_IN_SECONDS);
+        
+        this.countToReachInCargoMode = countToReachInCargoMode;
+        this.countToReachInHatchMode = countToReachInHatchMode;
 
-        this.countToReach = countToReach;
-        this.tolerance = tolerance;
+        this.tolerance = DEFAULT_TOLERANCE;
     }
 
     @Override
     protected void initialize() {
+        if (Robot.isHelperModeCargo()) {
+            this.countToReach = countToReachInCargoMode;
+        } else {
+            this.countToReach = countToReachInHatchMode;
+        }
+
         previousOffset = Integer.MAX_VALUE;
 
         currentPos = Robot.elevator.getSensorPosition();

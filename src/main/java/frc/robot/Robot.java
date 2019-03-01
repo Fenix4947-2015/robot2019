@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
 import frc.robot.subsystems.BalloonBox;
 import frc.robot.subsystems.DriveTrain;
@@ -17,7 +18,12 @@ import frc.robot.subsystems.RobotUtilities;
  * project.
  */
 public class Robot extends TimedRobot {
-    
+
+    public static enum HelperMode {
+        CARGO,
+        HATCH,
+    }
+        
     // Subsystems.
     public static BalloonBox ballonBox;
     public static Elevator elevator;
@@ -28,6 +34,8 @@ public class Robot extends TimedRobot {
 
     // Operator interfaces.
     public static OI oi;
+
+    private static HelperMode helperMode = HelperMode.HATCH;
 
 	  // Components / Sensors
 	  //public static SensorMonitor sensorMonitor;
@@ -49,7 +57,7 @@ public class Robot extends TimedRobot {
 
         oi = new OI();
 
-       // sensorMonitor = new SensorMonitor();
+        setHelperMode(HelperMode.HATCH);
     }
 
     /**
@@ -64,7 +72,8 @@ public class Robot extends TimedRobot {
         ballonBox.log();
         elevator.log();        
         oi.log();
-        
+
+        SmartDashboard.putString("Helper Mode", Robot.helperMode.name());
     }
 
     @Override
@@ -74,7 +83,7 @@ public class Robot extends TimedRobot {
         lifter.frontDown();
         lifter.backDown(); 
         driveTrain.setFrontToPanelGripper();       
-
+        setHelperMode(HelperMode.HATCH);
     }
 
     @Override
@@ -102,8 +111,19 @@ public class Robot extends TimedRobot {
     }
     
     @Override
-  	public void disabledInit() {
-    		//sensorMonitor.stopMonitoring();
-    		System.out.println("Robot disabled");
-      }
+    public void disabledInit() {
+        System.out.println("Robot disabled");
+    }
+
+    public static void setHelperMode(HelperMode helperMode) {
+        Robot.helperMode = helperMode;
+    }
+
+    public static boolean isHelperModeCargo() {
+        return Robot.helperMode == HelperMode.CARGO;
+    }
+
+    public static boolean isHelperModeHatch() {
+        return Robot.helperMode == HelperMode.HATCH;
+    }    
 }

@@ -3,11 +3,13 @@ package frc.robot.commands.balloonbox;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.Robot.HelperMode;
 import frc.robot.joysticks.XBoxJoystick;
 
 public class ManualControl extends Command {
 
     private static final int POV_NONE = -1;
+    private static final int POV_UP = 0;
     private static final int POV_RIGHT = 90;
     private static final int POV_DOWN = 180;
     private static final int POV_LEFT = 270;
@@ -38,16 +40,28 @@ public class ManualControl extends Command {
         }                
         Robot.ballonBox.pivot(y);
 
+
+        int pov = XBoxJoystick.HELPER.getPOV();
+
         // Balloon drop controls
         // Controls are reversed as requested by the pilots! (compressor side = right side)
-        int pov = XBoxJoystick.HELPER.getPOV();
-        if (lastPOV == POV_NONE) {
-            if (pov == POV_RIGHT) {
-                Robot.ballonBox.dropBallonLeft();
-            } else if (pov == POV_LEFT) {
-                Robot.ballonBox.dropBallonRight();
-            } else if (pov == POV_DOWN) {
-                Robot.ballonBox.resetFlippers();
+        if (Robot.isHelperModeCargo()) {
+            if (lastPOV == POV_NONE) {
+                if (pov == POV_RIGHT) {
+                    Robot.ballonBox.dropBallonLeft();
+                } else if (pov == POV_LEFT) {
+                    Robot.ballonBox.dropBallonRight();
+                } else if (pov == POV_DOWN) {
+                    Robot.ballonBox.resetFlippers();
+                }
+            }
+        } else if (Robot.isHelperModeHatch()) {
+            if (lastPOV == POV_NONE) {
+                if (pov == POV_UP) {
+                    Robot.hatchGrabber.deploy();
+                } else if (pov == POV_DOWN) {
+                    Robot.hatchGrabber.retract();
+                }
             }
         }
 

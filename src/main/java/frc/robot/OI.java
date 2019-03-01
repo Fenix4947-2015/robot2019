@@ -1,19 +1,18 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.command.ConditionalCommand;
 import frc.robot.commands.StopAll;
-import frc.robot.commands.balloonbox.IntakeInPosition;
-import frc.robot.commands.balloonbox.IntakeOutPosition;
 import frc.robot.commands.balloonbox.ToggleIntakeRoller;
 import frc.robot.commands.drivetrain.SetFrontToIntake;
 import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
 import frc.robot.commands.elevator.LoadBalloonIntoBox;
 import frc.robot.commands.elevator.MoveElevatorToCount;
 import frc.robot.commands.elevator.MoveElevatorToLow;
-import frc.robot.commands.hatchgrabber.DeployHatch;
-import frc.robot.commands.hatchgrabber.RetractHatch;
 import frc.robot.commands.hatchgrabber.RetractHatchMacro;
 import frc.robot.commands.lifter.ToggleBackLift;
 import frc.robot.commands.lifter.ToggleFrontLift;
+import frc.robot.commands.mode.ActivateCargoModeForHelper;
+import frc.robot.commands.mode.ActivateHatchModeForHelper;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.Elevator;
 
@@ -25,9 +24,6 @@ public class OI {
     }
 
     private void initJoystickOfDriver(XBoxJoystick joystick) {
-        //joystick.X.whenPressed(new IntakeOutPosition());
-        //joystick.A.whenPressed(new IntakeInPosition());
-
         joystick.Y.whenPressed(new ToggleFrontLift());
         joystick.B.whenPressed(new ToggleBackLift());
 
@@ -41,17 +37,25 @@ public class OI {
     }
 
     private void initJoystickOfHelper(XBoxJoystick joystick) {
-        joystick.A.whenPressed(new LoadBalloonIntoBox());
+        joystick.X.whenPressed(new MoveElevatorToCount(Elevator.POS_CARGO_LEVEL_1, Elevator.POS_HATCH_LEVEL_1));
+        joystick.Y.whenPressed(new MoveElevatorToCount(Elevator.POS_CARGO_LEVEL_2, Elevator.POS_HATCH_LEVEL_2));
+        joystick.B.whenPressed(new MoveElevatorToCount(Elevator.POS_CARGO_LEVEL_3, Elevator.POS_HATCH_LEVEL_3));
 
-        joystick.bumperLeft.whenPressed(new RetractHatchMacro());
-        joystick.bumperRight.whenPressed(new DeployHatch());
+        joystick.A.whenPressed(new ConditionalCommand(new LoadBalloonIntoBox()) {
+            @Override
+            protected boolean condition() {
+                return Robot.isHelperModeCargo();
+            }
+        });
 
+        joystick.bumperLeft.whenPressed(new ActivateHatchModeForHelper());
+        joystick.bumperRight.whenPressed(new ActivateCargoModeForHelper());
+
+        joystick.back.whenPressed(new RetractHatchMacro());
         joystick.start.whenPressed(new StopAll());
-        joystick.stickLeft.whenPressed(new ToggleIntakeRoller());
 
-        joystick.X.whenPressed(new MoveElevatorToCount(Elevator.POS_ROCKET_LEVEL_1));
-        joystick.Y.whenPressed(new MoveElevatorToCount(Elevator.POS_ROCKET_LEVEL_2));
-        joystick.B.whenPressed(new MoveElevatorToCount(Elevator.POS_ROCKET_LEVEL_3));
+        joystick.stickLeft.whenPressed(new ToggleIntakeRoller());
+        joystick.stickRight.whenPressed(new MoveElevatorToCount(Elevator.POS_CARGO_AT_HUMAN_STATION));
     }
 
     public void log() {
