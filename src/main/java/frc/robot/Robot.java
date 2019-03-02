@@ -3,8 +3,12 @@ package frc.robot;
 import java.util.concurrent.TimeUnit;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.autonomous.AutoNothing;
+import frc.robot.commands.autonomous.StartGameMacro;
 import frc.robot.subsystems.BalloonBox;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
@@ -39,6 +43,9 @@ public class Robot extends TimedRobot {
     private static HelperMode helperMode = HelperMode.HATCH;
 
     public static long startOfAutonomousMillis;
+    String m_autonomousCommand;
+	SendableChooser<String> m_chooser = new SendableChooser<>();
+	Command m_currentCommand;
 
 	  // Components / Sensors
 	  //public static SensorMonitor sensorMonitor;
@@ -61,6 +68,11 @@ public class Robot extends TimedRobot {
         oi = new OI();
 
         setHelperMode(HelperMode.HATCH);
+
+        SmartDashboard.putString("-------AUTONOMOUS--------","");
+		m_chooser.addDefault("DO NOTHING", AutoNothing.NAME);
+        m_chooser.addDefault("Descente Auto", StartGameMacro.NAME);
+        SmartDashboard.putData("Auto mode", m_chooser);
     }
 
     /**
@@ -93,6 +105,25 @@ public class Robot extends TimedRobot {
         setHelperMode(HelperMode.HATCH);
 
         Robot.startOfAutonomousMillis = System.currentTimeMillis();
+
+        
+		m_autonomousCommand = (String)m_chooser.getSelected();
+
+		// schedule the autonomous command (example)
+		if (m_autonomousCommand != null) {
+			switch (m_autonomousCommand) {
+			
+                case AutoNothing.NAME:
+                    m_currentCommand = new AutoNothing();
+                    m_currentCommand.start();
+                    break;
+                    
+                case StartGameMacro.NAME:
+                    m_currentCommand = new StartGameMacro();
+                    m_currentCommand.start();
+                    break;
+			}
+		}		
     }
 
     @Override

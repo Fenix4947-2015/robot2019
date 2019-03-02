@@ -8,6 +8,7 @@ import frc.robot.commands.drivetrain.SetFrontToPanelGripper;
 import frc.robot.commands.elevator.LoadBalloonIntoBox;
 import frc.robot.commands.elevator.MoveElevatorToCount;
 import frc.robot.commands.elevator.MoveElevatorToLow;
+import frc.robot.commands.hatchgrabber.HatchFullCycleMacro;
 import frc.robot.commands.hatchgrabber.RetractHatchMacro;
 import frc.robot.commands.lifter.ToggleBackLift;
 import frc.robot.commands.lifter.ToggleFrontLift;
@@ -54,7 +55,7 @@ public class OI {
         joystick.back.whenPressed(new MoveElevatorToCount(Elevator.POS_HATCH_LOADING_STATION));
         joystick.start.whenPressed(new StopAll());
 
-        joystick.stickLeft.whenPressed(new ToggleIntakeRoller());
+        joystick.stickLeft.whenPressed(new HatchFullCycleMacro());
         joystick.stickRight.whenPressed(new MoveElevatorToCount(Elevator.POS_CARGO_AT_HUMAN_STATION));
     }
 

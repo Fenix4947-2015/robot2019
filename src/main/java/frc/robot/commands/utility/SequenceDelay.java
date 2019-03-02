@@ -5,32 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.autonomous;
+package frc.robot.commands.utility;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
 
-public class TireToiEnBasCommeUnGrand extends Command {
-  private double speed;
-  private double dureeSecond;
-  public TireToiEnBasCommeUnGrand(double Speed, double DureeSecond) {
+public class SequenceDelay extends Command {
+  double delaySeconds;
+  public SequenceDelay(double DelaySeconds ) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveTrain);
-    speed = Speed;
-    dureeSecond = DureeSecond;
+    delaySeconds = DelaySeconds;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    setTimeout(dureeSecond);
+    setTimeout(delaySeconds);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.driveArcadeMethod(-speed, 0.0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -42,13 +37,11 @@ public class TireToiEnBasCommeUnGrand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.driveTrain.stopMotors();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

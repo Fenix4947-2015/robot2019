@@ -25,7 +25,7 @@ public class Elevator extends Subsystem {
     public static final int POS_HATCH_LEVEL_3 = 28250;
     public static final int POS_HATCH_LEVEL_2 = 15100;
     public static final int POS_HATCH_LEVEL_1 = 3900;
-    public static final int POS_HATCH_LOADING_STATION = 1500;
+    public static final int POS_HATCH_LOADING_STATION = 2500;
 
     public static final int POS_HATCH_LEVEL_1_MINIMUM_THRESHOLD = 2500;
 
