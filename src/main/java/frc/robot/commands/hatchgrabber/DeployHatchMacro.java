@@ -18,7 +18,7 @@ public class DeployHatchMacro extends CommandGroup {
   public DeployHatchMacro() {
     if(Robot.elevator.isTooLowForHatch())
     {
-        addSequential(new MoveElevatorDownRelativeCount(2000));
+       // addSequential(new MoveElevatorDownRelativeCount(2000));
     }
     
     addSequential(new DeployHatch());

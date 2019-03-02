@@ -21,9 +21,9 @@ public class StartGameMacro extends CommandGroup {
   public StartGameMacro() {
     super(NAME);
 
-    addSequential(new TireToiEnBasCommeUnGrand(1.0, 1.25));
+    addSequential(new TireToiEnBasCommeUnGrand(1.0, 1.75));
     addSequential(new TireToiEnBasCommeUnGrand(0.5, 0.25));
-    addSequential(new TireToiEnBasCommeUnGrand(0.25, 0.25));
+    addSequential(new TireToiEnBasCommeUnGrand(0.25, 0.5));
     addSequential(new SequenceDelay(0.25));
     addSequential(new DeployHatch());
     addSequential(new SequenceDelay(0.25));
